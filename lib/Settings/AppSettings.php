@@ -24,7 +24,7 @@ class AppSettings implements ISettings {
     }
 
     public function getForm(): TemplateResponse {
-        return new TemplateResponse(Application::APP_ID, "admin/settings", $this->getSettings());
+        return new TemplateResponse(Application::APP_ID, "settings/appsettings", $this->getSettings());
     }
 
     public function getSection(): string {
