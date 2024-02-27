@@ -6,7 +6,7 @@
     -->
     <id>rdsng</id>
     <name>RDS NG</name>
-    <version>0.0.1</version>
+    <version>0.0.5</version>
 
     <namespace>RdsNg</namespace>
 
@@ -24,8 +24,13 @@
 
     <navigations>
         <navigation>
-            <name>RDS NG</name>
-            <route>rdsng.launch.index</route>
+            <name>RDS NG Settings</name>
+            <route>rdsng.page.index</route>
         </navigation>
     </navigations>
+
+    <settings>
+        <admin>OCA\RdsNg\Settings\AppSettings</admin>
+        <admin-section>OCA\RdsNg\Settings\AppSettingsSection</admin-section>
+    </settings>
 </info>
