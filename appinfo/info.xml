@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <!--
+    SPDX-FileCopyrightText: University of Muenster <info@uni-muenster.de>
+    SPDX-License-Identifier: CC0-1.0
+    -->
+    <id>rdsng</id>
+    <name>RDS NG</name>
+    <version>0.0.1</version>
+
+    <namespace>RdsNg</namespace>
+
+    <licence>agpl</licence>
+    <author mail="info@uni-muenster.de" homepage="https://www.uni-muenster.de">University of Muenster</author>
+
+    <category>integration</category>
+    <summary>Integration of Sciebo RDS NG</summary>
+    <description><![CDATA[This app integrates Sciebo RDS NG into Nextcloud.]]></description>
+    <bugs>https://www.uni-muenster.de</bugs>
+
+    <dependencies>
+        <nextcloud min-version="26" max-version="28"/>
+    </dependencies>
+
+    <navigations>
+        <navigation>
+            <name>RDS NG</name>
+            <route>rdsng.launch.index</route>
+        </navigation>
+    </navigations>
+</info>
