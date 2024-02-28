@@ -1,3 +1,5 @@
+'use strict';
+
 const appID = "rdsng";
 
 function saveSettings() {

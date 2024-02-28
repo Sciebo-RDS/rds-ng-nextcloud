@@ -24,8 +24,8 @@
 
     <navigations>
         <navigation>
-            <name>RDS NG Settings</name>
-            <route>rdsng.page.index</route>
+            <name>RDS NG</name>
+            <route>rdsng.launch.launch</route>
         </navigation>
     </navigations>
 

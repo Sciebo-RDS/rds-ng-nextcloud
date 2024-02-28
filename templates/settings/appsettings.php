@@ -8,6 +8,7 @@ Util::addScript(Application::APP_ID, "settings/appsettings");
 
 Util::addStyle(Application::APP_ID, "main");
 Util::addStyle(Application::APP_ID, "settings/appsettings");
+
 ?>
 
 <div id="settings" class="section">

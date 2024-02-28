@@ -31,6 +31,18 @@ class AppSettings implements ISettings {
         ];
     }
 
+    public function getAppURL(): string {
+        return $this->getSettings()[self::SETTING_APP_URL];
+    }
+
+    public function getUserIDSuffix(): string {
+        return $this->getSettings()[self::SETTING_USERID_SUFFIX];
+    }
+
+    public function getEnforceUserIDSuffix(): bool {
+        return $this->getSettings()[self::SETTING_USERID_SUFFIX_ENFORCE];
+    }
+
     public function getForm(): TemplateResponse {
         return new TemplateResponse(Application::APP_ID, "settings/appsettings", $this->getSettings());
     }

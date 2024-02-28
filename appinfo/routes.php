@@ -6,10 +6,15 @@ declare(strict_types=1);
 
 return [
     'routes' => [
-        // PageController
+        // LaunchController
         [
-            'name' => 'page#index',
-            'url' => '/page',
+            'name' => 'launch#launch',
+            'url' => '/launcher/launch',
+            'verb' => 'GET',
+        ],
+        [
+            'name' => 'launch#app',
+            'url' => '/launcher/app',
             'verb' => 'GET',
         ],
     ]
