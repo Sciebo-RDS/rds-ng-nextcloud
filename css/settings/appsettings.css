@@ -8,12 +8,17 @@
 
 .settings-table-main {
     display: inline-grid;
-    grid-template-columns: 150px min-content auto;
+    grid-template-columns: 130px min-content auto;
 }
 
 .settings-table-userid {
     display: inline-grid;
-    grid-template-columns: 150px min-content auto;
+    grid-template-columns: 130px min-content auto;
+}
+
+.settings-table-info {
+    width: 500px;
+    padding-left: 1rem;
 }
 
 .success-message {

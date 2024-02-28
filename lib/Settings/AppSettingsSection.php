@@ -23,7 +23,7 @@ class AppSettingsSection implements IIconSection {
     }
 
     public function getPriority(): int {
-        return 80;
+        return 70;
     }
 
     public function getIcon() {

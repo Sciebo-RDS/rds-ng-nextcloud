@@ -11,6 +11,9 @@ use OCP\Settings\ISettings;
 class AppSettings implements ISettings {
     const SETTING_APP_URL = "app_url";
 
+    const SETTING_USERID_SUFFIX = "userid_suffix";
+    const SETTING_USERID_SUFFIX_ENFORCE = "userid_suffix_enforce";
+
     private IConfig $config;
 
     public function __construct(IConfig $config) {
@@ -19,7 +22,12 @@ class AppSettings implements ISettings {
 
     public function getSettings(): array {
         return [
-            AppSettings::SETTING_APP_URL => (string)$this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_APP_URL, "")
+            AppSettings::SETTING_APP_URL =>
+                $this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_APP_URL, ""),
+            AppSettings::SETTING_USERID_SUFFIX =>
+                $this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_USERID_SUFFIX, ""),
+            AppSettings::SETTING_USERID_SUFFIX_ENFORCE =>
+                $this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_USERID_SUFFIX_ENFORCE, false) == "true",
         ];
     }
 
@@ -32,6 +40,6 @@ class AppSettings implements ISettings {
     }
 
     public function getPriority(): int {
-        return 50;
+        return 70;
     }
 }
