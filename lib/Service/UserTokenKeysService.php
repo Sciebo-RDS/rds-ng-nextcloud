@@ -5,7 +5,7 @@ namespace OCA\RdsNg\Service;
 use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\Core\Util\RSAKey;
 
-class UserToken {
+class UserTokenKeys {
     private string $publicKey;
     private string $privateKey;
 
@@ -27,8 +27,8 @@ class UserTokenService {
     public function __construct() {
     }
 
-    public function generateUserToken(): UserToken {
+    public function generateUserTokenKeys(): UserTokenKeys {
         $jwk = RSAKey::createFromJWK(JWKFactory::createRSAKey(4096));
-        return new UserToken(RSAKey::toPublic($jwk)->toPEM(), $jwk->toPEM());
+        return new UserTokenKeys(RSAKey::toPublic($jwk)->toPEM(), $jwk->toPEM());
     }
 }

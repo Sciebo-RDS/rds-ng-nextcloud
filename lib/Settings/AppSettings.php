@@ -26,7 +26,7 @@ class AppSettings implements ISettings {
         $this->tokenService = $tokenService;
 
         if ($this->getUserTokenPublicKey() == "" || $this->getUserTokenPrivateKey() == "") {
-            $this->generateUserToken();
+            $this->renewUserTokenKeys();
         }
     }
 
@@ -77,8 +77,8 @@ class AppSettings implements ISettings {
         return 70;
     }
 
-    public function generateUserToken(): void {
-        $token = $this->tokenService->generateUserToken();
+    public function renewUserTokenKeys(): void {
+        $token = $this->tokenService->generateUserTokenKeys();
 
         $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, $token->publicKey());
         $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, $token->privateKey());
