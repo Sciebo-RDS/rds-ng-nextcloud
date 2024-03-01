@@ -1,0 +1,18 @@
+{
+    "name": "rds-ng/rds-ng-nextcloud",
+    "description": "Integrate RDS NG into Nextcloud",
+    "type": "project",
+    "license": "AGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "University of Muenster"
+        }
+    ],
+    "require": {
+        "web-token/jwt-signature-algorithm-rsa": "^3.0.",
+        "web-token/jwt-key-mgmt": "^3.0.",
+        "firebase/php-jwt": "^6.10."
+    },
+    "require-dev": {
+    }
+}

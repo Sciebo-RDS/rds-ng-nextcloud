@@ -50,6 +50,28 @@ Util::addStyle(Application::APP_ID, "settings/appsettings");
                 <div class="settings-table-info"><em>If enabled, user IDs which already are an email address will nonetheless use the specified suffix.</em></div>
             </div>
         </div>
+
+        <div id="security-settings-section">
+            <div class="section-header">
+                <h3>Security</h3>
+            </div>
+            <div style="padding-bottom: 1rem;">Configure various settings related to security.</div>
+            <div style="padding-bottom: 1rem;">
+                <em>The public/private user token keys are used to generate authentication tokens for the users. A new key pair can be created using the <b>rdsng:create-user-token-keys</b> command.</em>
+            </div>
+
+            <div class="settings-table settings-table-security" style="white-space: pre-line; display: grid; grid-template-columns: auto auto; grid-gap: 2rem;">
+                <div style="align-self: baseline;">
+                    <label>User token - Public key:</label>
+                    <div style="font-family: monospace; font-size: small;"><?php p($_['usertoken_public_key']); ?></div>
+                </div>
+
+                <div style="align-self: baseline;">
+                    <label>User token - Private key:</label>
+                    <div style="font-family: monospace; font-size: small;"><?php p($_['usertoken_private_key']) ?></div>
+                </div>
+            </div>
+        </div>
     </form>
 
     <div id="success-message" class="success-message" style="display: none;">Settings saved!</div>
