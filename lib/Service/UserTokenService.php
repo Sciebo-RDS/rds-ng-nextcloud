@@ -2,8 +2,9 @@
 
 namespace OCA\RdsNg\Service;
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 use Jose\Component\KeyManagement\JWKFactory;
-use Jose\Component\Core\Util\RSAKey;
 
 class UserTokenKeys {
     private string $publicKey;
@@ -28,7 +29,13 @@ class UserTokenService {
     }
 
     public function generateUserTokenKeys(): UserTokenKeys {
-        $jwk = RSAKey::createFromJWK(JWKFactory::createRSAKey(4096));
-        return new UserTokenKeys(RSAKey::toPublic($jwk)->toPEM(), $jwk->toPEM());
+        $jwk = JWKFactory::createRSAKey(
+            2048,
+            [
+                "alg" => "RSA-OAEP-256",
+                "use" => "sig"
+            ]
+        );
+        return new UserTokenKeys(json_encode($jwk->toPublic()), json_encode($jwk));
     }
 }

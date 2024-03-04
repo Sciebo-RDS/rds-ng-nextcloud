@@ -9,9 +9,8 @@
         }
     ],
     "require": {
-        "web-token/jwt-signature-algorithm-rsa": "^3.0.",
-        "web-token/jwt-key-mgmt": "^3.0.",
-        "firebase/php-jwt": "^6.10."
+        "firebase/php-jwt": "^6.10.0",
+        "web-token/jwt-framework": "^3.3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
@@ -37,7 +36,7 @@
             "composer/package-versions-deprecated": true
         },
         "platform": {
-            "php": "8.0"
+            "php": "8.2"
         }
     }
 }
