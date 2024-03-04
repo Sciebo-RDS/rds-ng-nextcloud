@@ -2,6 +2,6 @@
 .idea
 
 # Build files
-/.build/
+/build/
 /vendor/
 /composer.lock
