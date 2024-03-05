@@ -5,10 +5,10 @@ namespace OCA\RdsNg\Controller;
 use OCA\RdsNg\AppInfo\Application;
 use OCA\RdsNg\Settings\AppSettings;
 
-use OCP\AppFramework\{Controller};
+use OCP\AppFramework\{ApiController as _ApiController, Http\DataResponse};
 use OCP\IRequest;
 
-class ApiController extends Controller {
+class ApiController extends _ApiController {
     private AppSettings $appSettings;
 
     public function __construct(IRequest $request, AppSettings $appSettings) {
@@ -20,8 +20,9 @@ class ApiController extends Controller {
     /**
      * @NoCSRFRequired
      * @NoAdminRequired
+     * @CORS
      */
-    public function publicKey(): array {
-        return ["public-key" => $this->appSettings->getUserTokenPublicKey()];
+    public function publicKey(): DataResponse {
+        return new DataResponse(["public-key" => $this->appSettings->getUserTokenPublicKey()]);
     }
 }
