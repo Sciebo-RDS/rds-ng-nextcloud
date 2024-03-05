@@ -45,10 +45,10 @@ class UserToken implements JsonSerializable {
         return $this->name;
     }
 
-    public static function fromSession(IUserSession $session): UserToken {
+    public static function fromSession(IUserSession $session, AppService $appService): UserToken {
         $token = new UserToken();
 
-        $token->userID = $session->getUser()->getUID();
+        $token->userID = $appService->normalizeUserID($session->getUser()->getUID());
         $token->name = $session->getUser()->getDisplayName();
 
         return $token;
@@ -83,12 +83,16 @@ class UserToken implements JsonSerializable {
 class UserTokenService {
     private IUserSession $userSession;
 
-    public function __construct(IUserSession $userSession) {
+    private AppService $appService;
+
+    public function __construct(IUserSession $userSession, AppService $appService) {
         $this->userSession = $userSession;
+
+        $this->appService = $appService;
     }
 
     public function generateUserToken(): UserToken {
-        return UserToken::fromSession($this->userSession);
+        return UserToken::fromSession($this->userSession, $this->appService);
     }
 
     public function generateUserTokenKeys(): UserTokenKeys {

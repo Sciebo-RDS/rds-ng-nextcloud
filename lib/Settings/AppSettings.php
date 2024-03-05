@@ -3,8 +3,6 @@
 namespace OCA\RdsNg\Settings;
 
 use OCA\RdsNg\AppInfo\Application;
-use OCA\RdsNg\Service\UserTokenKeys;
-use OCA\RdsNg\Service\UserTokenService;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -20,15 +18,9 @@ class AppSettings implements ISettings {
     const SETTING_USERTOKEN_PRIVATE_KEY = "usertoken_private_key";
 
     private IConfig $config;
-    private UserTokenService $tokenService;
 
-    public function __construct(IConfig $config, UserTokenService $tokenService) {
+    public function __construct(IConfig $config) {
         $this->config = $config;
-        $this->tokenService = $tokenService;
-
-        if ($this->getUserTokenPublicKey() == "" || $this->getUserTokenPrivateKey() == "") {
-            $this->renewUserTokenKeys();
-        }
     }
 
     public function getSettings(): array {
@@ -66,8 +58,9 @@ class AppSettings implements ISettings {
         return $this->getSettings()[self::SETTING_USERTOKEN_PRIVATE_KEY];
     }
 
-    public function getUserTokenKeys(): UserTokenKeys {
-        return new UserTokenKeys($this->getUserTokenPublicKey(), $this->getUserTokenPrivateKey());
+    public function setUserTokenKeys(string $publicKey, string $privateKey): void {
+        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, $publicKey);
+        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, $privateKey);
     }
 
     public function getForm(): TemplateResponse {
@@ -80,12 +73,5 @@ class AppSettings implements ISettings {
 
     public function getPriority(): int {
         return 70;
-    }
-
-    public function renewUserTokenKeys(): void {
-        $token = $this->tokenService->generateUserTokenKeys();
-
-        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, $token->publicKey());
-        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, $token->privateKey());
     }
 }
