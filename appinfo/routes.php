@@ -8,14 +8,21 @@ return [
     'routes' => [
         // LaunchController
         [
-            'name' => 'launch#launch',
-            'url' => '/launcher/launch',
-            'verb' => 'GET',
+            "name" => "launch#launch",
+            "url" => "/launcher/launch",
+            "verb" => "GET",
         ],
         [
-            'name' => 'launch#app',
-            'url' => '/launcher/app',
-            'verb' => 'GET',
+            "name" => 'launch#app',
+            "url" => '/launcher/app',
+            "verb" => 'GET',
+        ],
+
+        // APIController
+        [
+            "name" => 'api#publickey',
+            "url" => '/api/publickey',
+            "verb" => 'GET',
         ],
     ]
 ];

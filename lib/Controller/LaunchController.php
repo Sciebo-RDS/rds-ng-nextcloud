@@ -68,7 +68,7 @@ class LaunchController extends Controller {
      */
     public function app(): RedirectResponse {
         $jwt = $this->tokenService->generateUserToken()->generateJWT(
-            new UserTokenKeys($this->appService->settings()->getUserTokenPublicKey(), $this->appService->settings()->getUserTokenPrivateKey())
+            new UserTokenKeys($this->appSettings->getUserTokenPublicKey(), $this->appSettings->getUserTokenPrivateKey())
         );
         return new RedirectResponse($this->appService->settings()->getAppURL() . "?" . http_build_query([
                 "user-token" => $jwt
