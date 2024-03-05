@@ -18,8 +18,8 @@ class ApiController extends _ApiController {
     }
 
     /**
+     * @PublicPage
      * @NoCSRFRequired
-     * @NoAdminRequired
      * @CORS
      */
     public function publicKey(): DataResponse {
