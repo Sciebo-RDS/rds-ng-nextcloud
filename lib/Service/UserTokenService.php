@@ -58,7 +58,7 @@ class UserToken implements JsonSerializable {
         $payload = json_encode([
             "iss" => "RDS NG",
             "sub" => "User Token",
-            "user-token" => json_encode($this)
+            "user-token" => $this->token(),
         ]);
 
         $algorithmManager = new AlgorithmManager([new RS256()]);
@@ -72,11 +72,15 @@ class UserToken implements JsonSerializable {
         return $serializer->serialize($jws, 0);
     }
 
-    public function jsonSerialize(): array {
+    public function token(): array {
         return [
             "user-id" => $this->userID,
             "user-name" => $this->name,
         ];
+    }
+
+    public function jsonSerialize(): array {
+        return $this->token();
     }
 }
 
