@@ -2,24 +2,37 @@
 
 namespace OCA\RdsNg\Controller;
 
-use OCP\IRequest;
-use OCP\AppFramework\{Controller, Http\ContentSecurityPolicy, Http\RedirectResponse, Http\TemplateResponse};
-
 use OCA\RdsNg\AppInfo\Application;
 use OCA\RdsNg\Service\AppService;
+use OCA\RdsNg\Service\UserTokenService;
+use OCA\RdsNg\Settings\AppSettings;
+
+use OCP\AppFramework\{Controller, Http\ContentSecurityPolicy, Http\RedirectResponse, Http\TemplateResponse};
+use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class LaunchController extends Controller {
-    private AppService $appService;
-
     private IURLGenerator $urlGenerator;
 
-    public function __construct(IRequest $request, AppService $appService, IURLGenerator $urlGenerator) {
+    private AppService $appService;
+    private UserTokenService $tokenService;
+
+    private AppSettings $appSettings;
+
+    public function __construct(
+        IRequest         $request,
+        IURLGenerator    $urlGenerator,
+        AppService       $appService,
+        UserTokenService $tokenService,
+        AppSettings      $appSettings) {
         parent::__construct(Application::APP_ID, $request);
 
-        $this->appService = $appService;
-
         $this->urlGenerator = $urlGenerator;
+
+        $this->appService = $appService;
+        $this->tokenService = $tokenService;
+
+        $this->appSettings = $appSettings;
     }
 
     /*** Page endpoints ***/
@@ -53,6 +66,9 @@ class LaunchController extends Controller {
      * @NoAdminRequired
      */
     public function app(): RedirectResponse {
-        return new RedirectResponse($this->appService->settings()->getAppURL());
+        $jwt = $this->tokenService->generateUserToken()->generateJWT($this->appSettings->getUserTokenKeys());
+        return new RedirectResponse($this->appService->settings()->getAppURL() . "?" . http_build_query([
+                "user-token" => $jwt
+            ]));
     }
 }

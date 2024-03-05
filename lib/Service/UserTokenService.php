@@ -4,7 +4,16 @@ namespace OCA\RdsNg\Service;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+use JsonSerializable;
+
+use OCP\IUserSession;
+
+use Jose\Component\Core\AlgorithmManager;
+use Jose\Component\Core\JWK;
 use Jose\Component\KeyManagement\JWKFactory;
+use Jose\Component\Signature\Algorithm\RS256;
+use Jose\Component\Signature\JWSBuilder;
+use Jose\Component\Signature\Serializer\CompactSerializer;
 
 class UserTokenKeys {
     private string $publicKey;
@@ -19,20 +28,74 @@ class UserTokenKeys {
         return $this->publicKey;
     }
 
-    public function privateKey() {
+    public function privateKey(): string {
         return $this->privateKey;
     }
 }
 
+class UserToken implements JsonSerializable {
+    private string $userID = "";
+    private string $name = "";
+
+    public function userID(): string {
+        return $this->userID;
+    }
+
+    public function name(): string {
+        return $this->name;
+    }
+
+    public static function fromSession(IUserSession $session): UserToken {
+        $token = new UserToken();
+
+        $token->userID = $session->getUser()->getUID();
+        $token->name = $session->getUser()->getDisplayName();
+
+        return $token;
+    }
+
+    public function generateJWT(UserTokenKeys $keys): string {
+        $payload = json_encode([
+            "iss" => "RDS NG",
+            "sub" => "User Token",
+            "user-token" => json_encode($this)
+        ]);
+
+        $algorithmManager = new AlgorithmManager([new RS256()]);
+        $jwsBuilder = new JWSBuilder($algorithmManager);
+        $jws = $jwsBuilder
+            ->create()
+            ->withPayload($payload)
+            ->addSignature(JWK::createFromJson($keys->privateKey()), ["alg" => "RS256"])
+            ->build();
+        $serializer = new CompactSerializer();
+        return $serializer->serialize($jws, 0);
+    }
+
+    public function jsonSerialize(): array {
+        return [
+            "user-id" => $this->userID,
+            "user-name" => $this->name,
+        ];
+    }
+}
+
 class UserTokenService {
-    public function __construct() {
+    private IUserSession $userSession;
+
+    public function __construct(IUserSession $userSession) {
+        $this->userSession = $userSession;
+    }
+
+    public function generateUserToken(): UserToken {
+        return UserToken::fromSession($this->userSession);
     }
 
     public function generateUserTokenKeys(): UserTokenKeys {
         $jwk = JWKFactory::createRSAKey(
             2048,
             [
-                "alg" => "RSA-OAEP-256",
+                "alg" => "RS256",
                 "use" => "sig"
             ]
         );

@@ -3,6 +3,7 @@
 namespace OCA\RdsNg\Settings;
 
 use OCA\RdsNg\AppInfo\Application;
+use OCA\RdsNg\Service\UserTokenKeys;
 use OCA\RdsNg\Service\UserTokenService;
 
 use OCP\AppFramework\Http\TemplateResponse;
@@ -63,6 +64,10 @@ class AppSettings implements ISettings {
 
     public function getUserTokenPrivateKey(): string {
         return $this->getSettings()[self::SETTING_USERTOKEN_PRIVATE_KEY];
+    }
+
+    public function getUserTokenKeys(): UserTokenKeys {
+        return new UserTokenKeys($this->getUserTokenPublicKey(), $this->getUserTokenPrivateKey());
     }
 
     public function getForm(): TemplateResponse {
