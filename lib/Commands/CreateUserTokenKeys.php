@@ -31,8 +31,8 @@ class CreateUserTokenKeys extends Command {
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int {
-        $tokenKeys = $this->tokenService->generateUserTokenKeys();
-        $this->appSettings->setUserTokenKeys($tokenKeys->publicKey(), $tokenKeys->privateKey());
+        $keys = $this->tokenService->generateUserTokenKeys();
+        $this->appSettings->setUserTokenKeys($keys);
         $output->writeln("A new key pair has been created.");
         return self::SUCCESS;
     }

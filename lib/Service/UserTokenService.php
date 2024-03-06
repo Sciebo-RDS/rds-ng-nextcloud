@@ -6,6 +6,8 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use JsonSerializable;
 
+use OCA\RdsNg\Types\KeyPair;
+
 use OCP\IUserSession;
 
 use Jose\Component\Core\AlgorithmManager;
@@ -14,24 +16,6 @@ use Jose\Component\KeyManagement\JWKFactory;
 use Jose\Component\Signature\Algorithm\RS256;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\Serializer\CompactSerializer;
-
-class UserTokenKeys {
-    private string $publicKey;
-    private string $privateKey;
-
-    public function __construct(string $publicKey, string $privateKey) {
-        $this->publicKey = $publicKey;
-        $this->privateKey = $privateKey;
-    }
-
-    public function publicKey(): string {
-        return $this->publicKey;
-    }
-
-    public function privateKey(): string {
-        return $this->privateKey;
-    }
-}
 
 class UserToken implements JsonSerializable {
     private string $userID = "";
@@ -45,20 +29,11 @@ class UserToken implements JsonSerializable {
         return $this->name;
     }
 
-    public static function fromSession(IUserSession $session, AppService $appService): UserToken {
-        $token = new UserToken();
-
-        $token->userID = $appService->normalizeUserID($session->getUser()->getUID());
-        $token->name = $session->getUser()->getDisplayName();
-
-        return $token;
-    }
-
-    public function generateJWT(UserTokenKeys $keys): string {
+    public function generateJWT(KeyPair $keys): string {
         $payload = json_encode([
             "iss" => "RDS NG",
             "sub" => "User Token",
-            "user-token" => $this->token(),
+            "user-token" => $this->jsonSerialize(),
         ]);
 
         $algorithmManager = new AlgorithmManager([new RS256()]);
@@ -72,15 +47,20 @@ class UserToken implements JsonSerializable {
         return $serializer->serialize($jws, 0);
     }
 
-    public function token(): array {
+    public function jsonSerialize(): array {
         return [
             "user-id" => $this->userID,
             "user-name" => $this->name,
         ];
     }
 
-    public function jsonSerialize(): array {
-        return $this->token();
+    public static function fromSession(IUserSession $session, AppService $appService): UserToken {
+        $token = new UserToken();
+
+        $token->userID = $appService->normalizeUserID($session->getUser()->getUID());
+        $token->name = $session->getUser()->getDisplayName();
+
+        return $token;
     }
 }
 
@@ -99,7 +79,7 @@ class UserTokenService {
         return UserToken::fromSession($this->userSession, $this->appService);
     }
 
-    public function generateUserTokenKeys(): UserTokenKeys {
+    public function generateUserTokenKeys(): KeyPair {
         $jwk = JWKFactory::createRSAKey(
             2048,
             [
@@ -107,6 +87,6 @@ class UserTokenService {
                 "use" => "sig"
             ]
         );
-        return new UserTokenKeys(json_encode($jwk->toPublic()), json_encode($jwk));
+        return new KeyPair(json_encode($jwk->toPublic()), json_encode($jwk));
     }
 }

@@ -4,7 +4,6 @@ namespace OCA\RdsNg\Controller;
 
 use OCA\RdsNg\AppInfo\Application;
 use OCA\RdsNg\Service\AppService;
-use OCA\RdsNg\Service\UserTokenKeys;
 use OCA\RdsNg\Service\UserTokenService;
 use OCA\RdsNg\Settings\AppSettings;
 
@@ -67,9 +66,7 @@ class LaunchController extends Controller {
      * @NoAdminRequired
      */
     public function app(): RedirectResponse {
-        $jwt = $this->tokenService->generateUserToken()->generateJWT(
-            new UserTokenKeys($this->appSettings->getUserTokenPublicKey(), $this->appSettings->getUserTokenPrivateKey())
-        );
+        $jwt = $this->tokenService->generateUserToken()->generateJWT($this->appSettings->getUserTokenKeys());
         return new RedirectResponse($this->appService->settings()->getAppURL() . "?" . http_build_query([
                 "user-token" => $jwt
             ]));

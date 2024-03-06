@@ -3,6 +3,7 @@
 namespace OCA\RdsNg\Settings;
 
 use OCA\RdsNg\AppInfo\Application;
+use OCA\RdsNg\Types\KeyPair;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -58,9 +59,13 @@ class AppSettings implements ISettings {
         return $this->getSettings()[self::SETTING_USERTOKEN_PRIVATE_KEY];
     }
 
-    public function setUserTokenKeys(string $publicKey, string $privateKey): void {
-        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, $publicKey);
-        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, $privateKey);
+    public function getUserTokenKeys(): KeyPair {
+        return new KeyPair($this->getUserTokenPublicKey(), $this->getUserTokenPrivateKey());
+    }
+
+    public function setUserTokenKeys(KeyPair $keys): void {
+        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, $keys->publicKey());
+        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, $keys->privateKey());
     }
 
     public function getForm(): TemplateResponse {
