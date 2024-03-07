@@ -46,9 +46,9 @@ class LaunchController extends Controller {
         $appHost = $this->appService->getAppHost(true);
 
         $csp = new ContentSecurityPolicy();
-        $csp->addAllowedScriptDomain($host);
-        $csp->addAllowedScriptDomain($appHost);
-        $csp->addAllowedScriptDomain("blob:");
+        $csp->addAllowedConnectDomain($host);
+        $csp->addAllowedConnectDomain($appHost);
+        $csp->addAllowedConnectDomain("blob:");
         $csp->addAllowedFrameDomain($host);
         $csp->addAllowedFrameDomain($appHost);
         $csp->addAllowedFrameDomain("blob:");
