@@ -36,6 +36,14 @@ class ResourcesService {
     }
 
     private function listResources(Folder $path, bool $includeFolders = true, bool $includeFiles = true, bool $recursive = true): ResourcesList {
+        function sanitizePath(string $path): string {
+            if (!str_starts_with($path, "/")) {
+                return "/" . $path;
+            }
+
+            return $path;
+        }
+
         function _listResources(Folder $rootPath, bool $processResource, bool $includeFolders, bool $includeFiles, bool $recursive): ResourcesList {
             $folders = [];
             $files = [];
@@ -50,7 +58,7 @@ class ResourcesService {
                     } else if ($node->getType() == FileInfo::TYPE_FILE and $includeFiles) {
                         $fileSize = $node->getSize();
                         $files[] = new Resource(
-                            $node->getInternalPath(),
+                            sanitizePath($node->getInternalPath()),
                             pathinfo($node->getInternalPath(), PATHINFO_BASENAME),
                             Resource::TYPE_FILE,
                             $fileSize
@@ -62,7 +70,7 @@ class ResourcesService {
 
             return new ResourcesList(
                 new Resource(
-                    $rootPath->getInternalPath(),
+                    sanitizePath($rootPath->getInternalPath()),
                     pathinfo($rootPath->getInternalPath(), PATHINFO_BASENAME),
                     Resource::TYPE_FOLDER,
                     $totalSize
