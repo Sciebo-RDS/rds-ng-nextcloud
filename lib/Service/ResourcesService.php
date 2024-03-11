@@ -2,33 +2,24 @@
 
 namespace OCA\RdsNg\Service;
 
+use \Exception;
+
 use OCA\RdsNg\Types\Resource;
 use OCA\RdsNg\Types\ResourcesList;
-use OCP\DB\Exception;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\IUserSession;
 
 class ResourcesService {
-    private IUserSession $userSession;
     private IRootFolder $rootFolder;
 
-    public function __construct(
-        IUserSession $session,
-        IRootFolder  $rootFolder) {
-
-        $this->userSession = $session;
+    public function __construct(IRootFolder $rootFolder) {
         $this->rootFolder = $rootFolder;
     }
 
-    public function getResourcesList(): ResourcesList|null {
-        if (!$this->userSession->isLoggedIn() || !$this->userSession->getUser()) {
-            return null;
-        }
-
+    public function getResourcesList(string $uid): ResourcesList|null {
         try {
-            $userFolder = $this->rootFolder->getUserFolder($this->userSession->getUser()->getUID());
+            $userFolder = $this->rootFolder->getUserFolder($uid);
             return $this->listResources($userFolder);
         } catch (Exception $e) {
             return null;

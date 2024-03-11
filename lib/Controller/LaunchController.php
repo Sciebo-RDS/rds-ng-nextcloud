@@ -4,7 +4,6 @@ namespace OCA\RdsNg\Controller;
 
 use OCA\RdsNg\AppInfo\Application;
 use OCA\RdsNg\Service\AppService;
-use OCA\RdsNg\Service\ResourcesService;
 use OCA\RdsNg\Service\UserTokenService;
 use OCA\RdsNg\Settings\AppSettings;
 
@@ -17,7 +16,6 @@ class LaunchController extends Controller {
 
     private AppService $appService;
     private UserTokenService $tokenService;
-    private ResourcesService $resourcesService;
 
     private AppSettings $appSettings;
 
@@ -26,7 +24,6 @@ class LaunchController extends Controller {
         IURLGenerator    $urlGenerator,
         AppService       $appService,
         UserTokenService $tokenService,
-        ResourcesService $resourcesService,
         AppSettings      $appSettings) {
         parent::__construct(Application::APP_ID, $request);
 
@@ -34,7 +31,6 @@ class LaunchController extends Controller {
 
         $this->appService = $appService;
         $this->tokenService = $tokenService;
-        $this->resourcesService = $resourcesService;
 
         $this->appSettings = $appSettings;
     }
@@ -73,7 +69,7 @@ class LaunchController extends Controller {
         $jwt = $this->tokenService->generateUserToken()->generateJWT($this->appSettings->getUserTokenKeys());
         return new RedirectResponse($this->appService->settings()->getAppURL() . "?" . http_build_query([
                 "user-token" => $jwt,
-                "resources" => json_encode($this->resourcesService->getResourcesList()) // TODO: Temporary only
-            ]));
+            ])
+        );
     }
 }

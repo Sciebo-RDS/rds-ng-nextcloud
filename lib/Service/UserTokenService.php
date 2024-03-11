@@ -19,10 +19,15 @@ use Jose\Component\Signature\Serializer\CompactSerializer;
 
 class UserToken implements JsonSerializable {
     private string $userID = "";
+    private string $systemID = "";
     private string $name = "";
 
     public function userID(): string {
         return $this->userID;
+    }
+
+    public function systemID(): string {
+        return $this->systemID;
     }
 
     public function name(): string {
@@ -50,6 +55,7 @@ class UserToken implements JsonSerializable {
     public function jsonSerialize(): array {
         return [
             "user-id" => $this->userID,
+            "system-id" => $this->systemID,
             "user-name" => $this->name,
         ];
     }
@@ -58,6 +64,7 @@ class UserToken implements JsonSerializable {
         $token = new UserToken();
 
         $token->userID = $appService->normalizeUserID($session->getUser()->getUID());
+        $token->systemID = $session->getUser()->getUID();
         $token->name = $session->getUser()->getDisplayName();
 
         return $token;

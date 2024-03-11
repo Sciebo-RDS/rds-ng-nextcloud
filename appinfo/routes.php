@@ -24,5 +24,10 @@ return [
             "url" => '/api/publickey',
             "verb" => 'GET',
         ],
+        [
+            "name" => 'api#resources',
+            "url" => '/api/resources',
+            "verb" => 'GET',
+        ],
     ]
 ];
