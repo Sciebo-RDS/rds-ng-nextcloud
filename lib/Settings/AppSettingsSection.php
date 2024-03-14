@@ -8,7 +8,7 @@ use OCP\Settings\IIconSection;
 use OCA\RdsNg\AppInfo\Application;
 
 class AppSettingsSection implements IIconSection {
-    private $urlGenerator;
+    private IURLGenerator $urlGenerator;
 
     public function __construct(IURLGenerator $urlGenerator) {
         $this->urlGenerator = $urlGenerator;
