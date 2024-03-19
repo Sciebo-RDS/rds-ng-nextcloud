@@ -35,8 +35,10 @@ class Application extends App implements IBootstrap {
             $tokenService = $context->getAppContainer()->get(UserTokenService::class);
             $appSettings = $context->getAppContainer()->get(AppSettings::class);
 
-            $keys = $tokenService->generateUserTokenKeys();
-            $appSettings->setUserTokenKeys($keys);
+            if ($appSettings->getUserTokenPublicKey() == "" || $appSettings->getUserTokenPrivateKey() == "") {
+                $keys = $tokenService->generateUserTokenKeys();
+                $appSettings->setUserTokenKeys($keys);
+            }
         } catch (Throwable) {
         }
     }
