@@ -24,5 +24,10 @@ return [
             "url" => '/api/v1/public-key',
             "verb" => 'GET',
         ],
+        [
+            "name" => 'api_v1#authorization',
+            "url" => '/api/v1/authorization',
+            "verb" => 'GET',
+        ],
     ]
 ];
