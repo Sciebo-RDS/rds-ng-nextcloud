@@ -18,15 +18,10 @@ return [
             "verb" => 'GET',
         ],
 
-        // APIController
+        // ApiV1Controller
         [
-            "name" => 'api#publickey',
-            "url" => '/api/publickey',
-            "verb" => 'GET',
-        ],
-        [
-            "name" => 'api#resources',
-            "url" => '/api/resources',
+            "name" => 'api_v1#publickey',
+            "url" => '/api/v1/public-key',
             "verb" => 'GET',
         ],
     ]
