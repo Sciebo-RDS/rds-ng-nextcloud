@@ -11,7 +11,8 @@ use OCP\AppFramework\{Controller, Http\ContentSecurityPolicy, Http\RedirectRespo
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
-class LaunchController extends Controller {
+class LaunchController extends Controller
+{
     private IURLGenerator $urlGenerator;
 
     private AppService $appService;
@@ -24,7 +25,8 @@ class LaunchController extends Controller {
         IURLGenerator    $urlGenerator,
         AppService       $appService,
         UserTokenService $tokenService,
-        AppSettings      $appSettings) {
+        AppSettings      $appSettings)
+    {
         parent::__construct(Application::APP_ID, $request);
 
         $this->urlGenerator = $urlGenerator;
@@ -41,7 +43,8 @@ class LaunchController extends Controller {
      * @NoCSRFRequired
      * @NoAdminRequired
      */
-    public function launch(): TemplateResponse {
+    public function launch(): TemplateResponse
+    {
         $host = $_SERVER["HTTP_HOST"];
         $appHost = $this->appService->getAppHost(true);
 
@@ -54,7 +57,7 @@ class LaunchController extends Controller {
         $csp->addAllowedFrameDomain("blob:");
 
         $resp = new TemplateResponse(Application::APP_ID, "launcher/launcher", [
-            "app-source" => $this->urlGenerator->linkToRoute(Application::APP_ID . ".launch.app"),
+            "app-source" => $this->urlGenerator->linkToRoute(Application::APP_ID . ".launch.app") . "?" . $_SERVER["QUERY_STRING"],
             "app-origin" => $appHost,
         ]);
         $resp->setContentSecurityPolicy($csp);
@@ -65,11 +68,21 @@ class LaunchController extends Controller {
      * @NoCSRFRequired
      * @NoAdminRequired
      */
-    public function app(): RedirectResponse {
+    public function app(): RedirectResponse
+    {
         $jwt = $this->tokenService->generateUserToken()->generateJWT($this->appSettings->getUserTokenKeys());
-        return new RedirectResponse($this->appService->settings()->getAppURL() . "?" . http_build_query([
-                "user-token" => $jwt,
-            ])
-        );
+        $queryParams = [
+            "user-token" => $jwt,
+        ];
+        $this->getOAuth2QueryParams($queryParams);
+        return new RedirectResponse($this->appService->settings()->getAppURL() . "?" . http_build_query($queryParams));
+    }
+
+    private function getOAuth2QueryParams(array &$queryParams): void
+    {
+        if (array_key_exists("state", $_GET) && strtolower($_GET["state"]) == "code" && array_key_exists("code", $_GET)) {
+            $queryParams["oauth2:auth"] = true;
+            $queryParams["oauth2:auth-code"] = $_GET["code"];
+        }
     }
 }

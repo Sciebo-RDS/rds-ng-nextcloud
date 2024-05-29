@@ -43,7 +43,7 @@ class ApiV1Controller extends ApiController
     public function authorization(): DataResponse
     {
         return new DataResponse(["authorization" => [
-            "type" => "oauth2",
+            "strategy" => "oauth2",
             "config" => [
                 "endpoints" => [
                     "authorization" => URLUtils::getHostURL($this->config, "/apps/oauth2/authorize"),
