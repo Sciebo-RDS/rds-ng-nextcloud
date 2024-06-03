@@ -81,7 +81,7 @@ class LaunchController extends Controller
     private function getOAuth2QueryParams(array &$queryParams): void
     {
         if (array_key_exists("state", $_GET) && strtolower($_GET["state"]) == "code" && array_key_exists("code", $_GET)) {
-            $queryParams["oauth2:auth"] = true;
+            $queryParams["oauth2:auth"] = "request";
             $queryParams["oauth2:auth-code"] = $_GET["code"];
         }
     }
