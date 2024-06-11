@@ -17,24 +17,35 @@ use Jose\Component\Signature\Algorithm\RS256;
 use Jose\Component\Signature\JWSBuilder;
 use Jose\Component\Signature\Serializer\CompactSerializer;
 
-class UserToken implements JsonSerializable {
+class UserToken implements JsonSerializable
+{
     private string $userID = "";
     private string $systemID = "";
+    private string $accessID = "";
     private string $name = "";
 
-    public function userID(): string {
+    public function userID(): string
+    {
         return $this->userID;
     }
 
-    public function systemID(): string {
+    public function systemID(): string
+    {
         return $this->systemID;
     }
 
-    public function name(): string {
+    public function accessID(): string
+    {
+        return $this->accessID;
+    }
+
+    public function name(): string
+    {
         return $this->name;
     }
 
-    public function generateJWT(KeyPair $keys): string {
+    public function generateJWT(KeyPair $keys): string
+    {
         $payload = json_encode([
             "iss" => "RDS NG",
             "sub" => "User Token",
@@ -52,41 +63,61 @@ class UserToken implements JsonSerializable {
         return $serializer->serialize($jws, 0);
     }
 
-    public function jsonSerialize(): array {
+    public function jsonSerialize(): array
+    {
         return [
             "user-id" => $this->userID,
             "system-id" => $this->systemID,
+            "access-id" => $this->accessID,
             "user-name" => $this->name,
         ];
     }
 
-    public static function fromSession(IUserSession $session, AppService $appService): UserToken {
+    public static function fromSession(IUserSession $session, AppService $appService): UserToken
+    {
         $token = new UserToken();
+
+        // Create the proper user ID for accessing resources through WebDAV
+        $accessID = $session->getUser()->getUID();
+        if (str_contains($accessID, "://")) {
+            $accessID = explode("://", $accessID)[1];
+        }
+        if (str_contains($accessID, ":")) {
+            $accessID = explode(":", $accessID)[0];
+        }
+        if (str_contains($accessID, "@")) {
+            $accessID = implode("@", array_slice(explode("@", $accessID), 0, -1));
+        }
 
         $token->userID = $appService->normalizeUserID($session->getUser()->getUID());
         $token->systemID = $session->getUser()->getUID();
+        $token->accessID = $accessID;
         $token->name = $session->getUser()->getDisplayName();
 
         return $token;
     }
 }
 
-class UserTokenService {
+class UserTokenService
+{
     private IUserSession $userSession;
 
     private AppService $appService;
 
-    public function __construct(IUserSession $userSession, AppService $appService) {
+    public function __construct(IUserSession $userSession, AppService $appService)
+    {
         $this->userSession = $userSession;
 
         $this->appService = $appService;
     }
 
-    public function generateUserToken(): UserToken {
+    public function generateUserToken(): UserToken
+    {
         return UserToken::fromSession($this->userSession, $this->appService);
     }
 
-    public function generateUserTokenKeys(): KeyPair {
+    public function generateUserTokenKeys(): KeyPair
+    {
         $jwk = JWKFactory::createRSAKey(
             2048,
             [

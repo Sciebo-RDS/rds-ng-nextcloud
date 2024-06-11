@@ -52,4 +52,20 @@ class ApiV1Controller extends ApiController
             ]
         ]]);
     }
+
+    /**
+     * @PublicPage
+     * @NoCSRFRequired
+     * @CORS
+     */
+    public function resources(): DataResponse
+    {
+        return new DataResponse(["resources" => [
+            "broker" => "webdav",
+            "config" => [
+                "endpoint" => URLUtils::getHostURL($this->config, "/remote.php/dav/files/{ACCESS_ID}"),
+                "requires_auth" => true,
+            ]
+        ]]);
+    }
 }
