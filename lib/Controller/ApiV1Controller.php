@@ -45,9 +45,10 @@ class ApiV1Controller extends ApiController
         return new DataResponse(["authorization" => [
             "strategy" => "oauth2",
             "config" => [
+                "host" => URLUtils::getHostURL($this->config),
                 "endpoints" => [
-                    "authorization" => URLUtils::getHostURL($this->config, "/apps/oauth2/authorize"),
-                    "token" => URLUtils::getHostURL($this->config, "/apps/oauth2/api/v1/token"),
+                    "authorization" => "/apps/oauth2/authorize",
+                    "token" => "/apps/oauth2/api/v1/token",
                 ]
             ]
         ]]);
@@ -63,7 +64,8 @@ class ApiV1Controller extends ApiController
         return new DataResponse(["resources" => [
             "broker" => "webdav",
             "config" => [
-                "endpoint" => URLUtils::getHostURL($this->config, "/remote.php/dav/files/{ACCESS_ID}"),
+                "host" => URLUtils::getHostURL($this->config),
+                "endpoint" => "/remote.php/dav/files/{ACCESS_ID}",
                 "requires_auth" => true,
             ]
         ]]);
