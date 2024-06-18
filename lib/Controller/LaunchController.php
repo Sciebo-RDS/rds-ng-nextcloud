@@ -83,7 +83,7 @@ class LaunchController extends Controller
         if (array_key_exists("state", $_GET) && array_key_exists("code", $_GET)) {
             $queryParams["auth:action"] = "request";
             $queryParams["auth:code"] = $_GET["code"];
-            $queryParams["auth:fingerprint"] = $_GET["state"];
+            $queryParams["auth:data"] = $_GET["state"];
         }
     }
 }
