@@ -8,12 +8,15 @@ use OCA\RdsNg\Service\UserTokenService;
 use OCA\RdsNg\Settings\AppSettings;
 
 use OCP\AppFramework\{Controller, Http\ContentSecurityPolicy, Http\RedirectResponse, Http\TemplateResponse};
+use OCA\RdsNg\Utility\URLUtils;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
 class LaunchController extends Controller
 {
     private IURLGenerator $urlGenerator;
+    private IConfig $config;
 
     private AppService $appService;
     private UserTokenService $tokenService;
@@ -23,6 +26,7 @@ class LaunchController extends Controller
     public function __construct(
         IRequest         $request,
         IURLGenerator    $urlGenerator,
+        IConfig          $config,
         AppService       $appService,
         UserTokenService $tokenService,
         AppSettings      $appSettings)
@@ -30,6 +34,7 @@ class LaunchController extends Controller
         parent::__construct(Application::APP_ID, $request);
 
         $this->urlGenerator = $urlGenerator;
+        $this->config = $config;
 
         $this->appService = $appService;
         $this->tokenService = $tokenService;
@@ -46,15 +51,22 @@ class LaunchController extends Controller
     public function launch(): TemplateResponse
     {
         $host = $_SERVER["HTTP_HOST"];
+        $overwriteHost = URLUtils::getHostURL($this->config);
         $appHost = $this->appService->getAppHost(true);
 
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedConnectDomain($host);
         $csp->addAllowedConnectDomain($appHost);
+
         $csp->addAllowedConnectDomain("blob:");
         $csp->addAllowedFrameDomain($host);
         $csp->addAllowedFrameDomain($appHost);
         $csp->addAllowedFrameDomain("blob:");
+
+        if ($host != $overwriteHost) {
+            $csp->addAllowedConnectDomain($overwriteHost);
+            $csp->addAllowedFrameDomain($overwriteHost);
+        }
 
         $resp = new TemplateResponse(Application::APP_ID, "launcher/launcher", [
             "app-source" => $this->urlGenerator->linkToRoute(Application::APP_ID . ".launch.app") . "?" . $_SERVER["QUERY_STRING"],
