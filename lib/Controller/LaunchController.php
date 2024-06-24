@@ -57,15 +57,18 @@ class LaunchController extends Controller
         $csp = new ContentSecurityPolicy();
         $csp->addAllowedConnectDomain($host);
         $csp->addAllowedConnectDomain($appHost);
-
         $csp->addAllowedConnectDomain("blob:");
         $csp->addAllowedFrameDomain($host);
         $csp->addAllowedFrameDomain($appHost);
         $csp->addAllowedFrameDomain("blob:");
+        $csp->addAllowedFrameAncestorDomain($host);
+        $csp->addAllowedFrameAncestorDomain($appHost);
+        $csp->addAllowedFrameAncestorDomain("blob:");
 
         if ($host != $overwriteHost) {
             $csp->addAllowedConnectDomain($overwriteHost);
             $csp->addAllowedFrameDomain($overwriteHost);
+            $csp->addAllowedFrameAncestorDomain($overwriteHost);
         }
 
         $resp = new TemplateResponse(Application::APP_ID, "launcher/launcher", [
