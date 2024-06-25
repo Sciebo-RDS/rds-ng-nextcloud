@@ -48,6 +48,7 @@ class ApiV1Controller extends ApiController
                 "host" => URLUtils::getHostURL($this->config),
                 "authorization_endpoint" => "/apps/oauth2/authorize",
                 "token_endpoint" => "/apps/oauth2/api/v1/token",
+                "scope" => "",
             ]
         ]]);
     }
