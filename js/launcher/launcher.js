@@ -20,10 +20,15 @@ $(document).ready(() => {
             const data = event.data;
             if (data.hasOwnProperty("action")) {
                 switch (event.data["action"]) {
+                    case "reload":
+                        window.location.reload();
+                        break;
+
                     case "redirect":
                         if (data.hasOwnProperty("data")) {
                             window.location.replace(data["data"]);
                         }
+                        break;
                 }
             }
         },
