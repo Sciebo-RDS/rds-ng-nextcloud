@@ -1,3 +1,3 @@
-# Sciebo RDS NG Nextcloud integration
+# BridgIT Nextcloud integration
 
-Sciebo RDS NG integration for Nextcloud 26 and above.
+BridgIT integration for Nextcloud 26 and above.

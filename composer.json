@@ -1,6 +1,6 @@
 {
     "name": "nextcloud/rdsng",
-    "description": "Integration of Sciebo RDS NG",
+    "description": "Integration of BridgIT",
     "type": "project",
     "license": "AGPL-3.0-or-later",
     "authors": [

@@ -5,8 +5,8 @@
     SPDX-License-Identifier: CC0-1.0
     -->
     <id>rdsng</id>
-    <name>RDS NG</name>
-    <version>0.7.0</version>
+    <name>BridgIT</name>
+    <version>0.10.0</version>
 
     <namespace>RdsNg</namespace>
 
@@ -14,17 +14,17 @@
     <author mail="info@uni-muenster.de" homepage="https://www.uni-muenster.de">University of Muenster</author>
 
     <category>integration</category>
-    <summary>Integration of Sciebo RDS NG</summary>
-    <description><![CDATA[This app integrates Sciebo RDS NG into Nextcloud.]]></description>
+    <summary>Integration of BridgIT</summary>
+    <description><![CDATA[This app integrates BridgIT into Nextcloud.]]></description>
     <bugs>https://www.uni-muenster.de</bugs>
 
     <dependencies>
-        <nextcloud min-version="26" max-version="28"/>
+        <nextcloud min-version="26" max-version="99"/>
     </dependencies>
 
     <navigations>
         <navigation>
-            <name>RDS NG</name>
+            <name>BridgIT</name>
             <route>rdsng.launch.launch</route>
         </navigation>
     </navigations>
