@@ -5,7 +5,7 @@
     SPDX-License-Identifier: CC0-1.0
     -->
     <id>rdsng</id>
-    <name>BridgIT</name>
+    <name>bridgit</name>
     <version>0.10.0</version>
 
     <namespace>RdsNg</namespace>
@@ -24,7 +24,7 @@
 
     <navigations>
         <navigation>
-            <name>BridgIT</name>
+            <name>bridgit</name>
             <route>rdsng.launch.launch</route>
         </navigation>
     </navigations>

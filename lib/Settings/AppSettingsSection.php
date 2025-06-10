@@ -2,6 +2,7 @@
 
 namespace OCA\RdsNg\Settings;
 
+use OCP\App\IAppManager;
 use OCP\IURLGenerator;
 use OCP\Settings\IIconSection;
 
@@ -11,9 +12,13 @@ class AppSettingsSection implements IIconSection
 {
     private IURLGenerator $urlGenerator;
 
-    public function __construct(IURLGenerator $urlGenerator)
+    private string $appName;
+
+    public function __construct(IURLGenerator $urlGenerator, IAppManager $appManager)
     {
         $this->urlGenerator = $urlGenerator;
+
+        $this->appName = $appManager->getAppInfo(Application::APP_ID)["name"];
     }
 
     public function getID(): string
@@ -23,7 +28,7 @@ class AppSettingsSection implements IIconSection
 
     public function getName(): string
     {
-        return "BridgIT";
+        return $this->appName;
     }
 
     public function getPriority(): int
