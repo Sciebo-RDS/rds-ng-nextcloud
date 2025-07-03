@@ -1,3 +1,3 @@
-# BridgIT Nextcloud integration
+# bridgit (RDS-NG) Nextcloud integration
 
-BridgIT integration for Nextcloud 26 and above.
+bridgit (RDS-NG) integration for Nextcloud 26 and above.

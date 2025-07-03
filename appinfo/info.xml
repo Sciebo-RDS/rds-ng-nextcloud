@@ -6,7 +6,7 @@
     -->
     <id>rdsng</id>
     <name>bridgit</name>
-    <version>0.10.0</version>
+    <version>1.0.0</version>
 
     <namespace>RdsNg</namespace>
 
@@ -14,8 +14,8 @@
     <author mail="info@uni-muenster.de" homepage="https://www.uni-muenster.de">University of Muenster</author>
 
     <category>integration</category>
-    <summary>Integration of BridgIT</summary>
-    <description><![CDATA[This app integrates BridgIT into Nextcloud.]]></description>
+    <summary>Integration of bridgit</summary>
+    <description><![CDATA[This app integrates bridgit into Nextcloud.]]></description>
     <bugs>https://www.uni-muenster.de</bugs>
 
     <dependencies>

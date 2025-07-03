@@ -19,12 +19,12 @@ Util::addStyle(Application::APP_ID, "settings/appsettings");
             <div class="section-header">
                 <h3>Main</h3>
             </div>
-            <div style="padding-bottom: 1rem;">Configure the main BridgIT settings.</div>
+            <div style="padding-bottom: 1rem;">Configure the main bridgit settings.</div>
 
             <div class="settings-table settings-table-main">
-                <label for="app-url">BridgIT URL:</label>
+                <label for="app-url">bridgit URL:</label>
                 <input id="app-url" type="text" style="width: 400px;" placeholder="https://www.mydomain.com" value="<?php p($_['app_url']) ?>"/>
-                <div class="settings-table-info"><em>The URL of your BridgIT instance.</em></div>
+                <div class="settings-table-info"><em>The URL of your bridgit instance.</em></div>
             </div>
         </div>
 
@@ -32,7 +32,7 @@ Util::addStyle(Application::APP_ID, "settings/appsettings");
             <div class="section-header">
                 <h3>User IDs</h3>
             </div>
-            <div style="padding-bottom: 1rem;">Configure how the user IDs for BridgIT are generated.</div>
+            <div style="padding-bottom: 1rem;">Configure how the user IDs for bridgit are generated.</div>
             <div style="padding-bottom: 1rem;">
                 <em>By default, a suffix (if specified) is only appended to a Nextcloud ID if it is not an email address. This behavior can be changed by enforcing the suffix.</em>
             </div>
