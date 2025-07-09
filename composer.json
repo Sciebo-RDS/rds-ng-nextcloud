@@ -12,15 +12,6 @@
         "firebase/php-jwt": "^6.10.0",
         "web-token/jwt-framework": "^3.3.0"
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9",
-        "sabre/dav": "^4.1",
-        "sabre/xml": "^2.2",
-        "symfony/event-dispatcher": "^5.3.11",
-        "nextcloud/ocp": "dev-stable28",
-        "psalm/phar": "^5.17.0",
-        "nextcloud/coding-standard": "^v1.1.1"
-    },
     "scripts": {
         "lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
         "cs:check": "php-cs-fixer fix --dry-run --diff",
