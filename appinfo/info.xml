@@ -33,8 +33,4 @@
         <admin>OCA\RdsNg\Settings\AppSettings</admin>
         <admin-section>OCA\RdsNg\Settings\AppSettingsSection</admin-section>
     </settings>
-
-    <commands>
-        <command>OCA\RdsNg\Commands\CreateUserTokenKeys</command>
-    </commands>
 </info>

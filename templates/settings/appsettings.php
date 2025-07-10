@@ -57,7 +57,7 @@ Util::addStyle(Application::APP_ID, "settings/appsettings");
             </div>
             <div style="padding-bottom: 1rem;">Configure various settings related to security.</div>
             <div style="padding-bottom: 1rem;">
-                <em>The public/private user token keys are used to generate authentication tokens for the users. A new key pair can be created using the <b>rdsng:create-user-token-keys</b> command.</em>
+                <em>The public/private user token keys are used to generate authentication tokens for the users.</em>
             </div>
 
             <div class="settings-table settings-table-security" style="white-space: pre-line; display: grid; grid-template-columns: auto auto; grid-gap: 2rem;">
