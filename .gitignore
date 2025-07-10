@@ -1,7 +1,13 @@
-# IDE
-.idea
+/.idea/
+/*.iml
 
-# Build files
 /build/
 /vendor/
-/composer.lock
+/vendor-bin/*/vendor/
+
+/.php-cs-fixer.cache
+/tests/.phpunit.cache
+
+/node_modules/
+/js/
+/css/

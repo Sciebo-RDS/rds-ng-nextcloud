@@ -8,26 +8,50 @@
             "name": "University of Muenster"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "OCA\\rdsng\\": "lib/"
+        }
+    },
     "require": {
+        "bamarni/composer-bin-plugin": "^1.8",
+        "php": "^8.1",
         "firebase/php-jwt": "^6.10.0",
         "web-token/jwt-framework": "^3.3.0"
     },
+    "require-dev": {
+        "nextcloud/ocp": "dev-stable29",
+        "roave/security-advisories": "dev-latest"
+    },
     "scripts": {
-        "lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
+        "post-install-cmd": [
+            "@composer bin all install --ansi"
+        ],
+        "post-update-cmd": [
+            "@composer bin all update --ansi"
+        ],
+        "lint": "find . -name \\*.php -not -path './vendor/*' -not -path './vendor-bin/*' -not -path './build/*' -print0 | xargs -0 -n1 php -l",
         "cs:check": "php-cs-fixer fix --dry-run --diff",
         "cs:fix": "php-cs-fixer fix",
-        "psalm": "psalm.phar --threads=1",
-        "psalm:update-baseline": "psalm.phar --threads=1 --update-baseline",
-        "psalm:update-baseline:force": "psalm.phar --threads=1 --update-baseline --set-baseline=tests/psalm-baseline.xml",
-        "psalm:clear": "psalm.phar --clear-cache && psalm --clear-global-cache",
-        "psalm:fix": "psalm.phar --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType"
+        "psalm": "psalm --threads=1 --no-cache",
+        "test:unit": "phpunit tests -c tests/phpunit.xml --colors=always --fail-on-warning --fail-on-risky",
+        "openapi": "generate-spec",
+        "rector": "rector && composer cs:fix"
     },
     "config": {
         "allow-plugins": {
-            "composer/package-versions-deprecated": true
+            "bamarni/composer-bin-plugin": true
         },
+        "optimize-autoloader": true,
+        "sort-packages": true,
         "platform": {
-            "php": "8.2"
+            "php": "8.1"
+        }
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": true
         }
     }
 }
