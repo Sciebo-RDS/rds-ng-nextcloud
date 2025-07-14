@@ -21,7 +21,8 @@ $(document).ready(() => {
             if (data.hasOwnProperty("action")) {
                 switch (event.data["action"]) {
                     case "reload":
-                        window.location.reload();
+                        // window.location.reload() won't work properly in FF, but this weird trick does
+                        document.getElementById("app-frame").src += "";
                         break;
 
                     case "redirect":
