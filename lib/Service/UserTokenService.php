@@ -85,9 +85,6 @@ class UserToken implements JsonSerializable
         if (str_contains($accessID, ":")) {
             $accessID = explode(":", $accessID)[0];
         }
-        if (str_contains($accessID, "@")) {
-            $accessID = implode("@", array_slice(explode("@", $accessID), 0, -1));
-        }
 
         $token->userID = $appService->normalizeUserID($session->getUser()->getUID());
         $token->systemID = $session->getUser()->getUID();
