@@ -30,6 +30,11 @@ return [
             "verb" => 'GET',
         ],
         [
+            "name" => 'api_v1#authorize',
+            "url" => '/api/v1/authorize',
+            "verb" => 'GET',
+        ],
+        [
             "name" => 'api_v1#resources',
             "url" => '/api/v1/resources',
             "verb" => 'GET',
