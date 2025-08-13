@@ -31,7 +31,6 @@ class ApiV1Controller extends ApiController
     /**
      * @PublicPage
      * @NoCSRFRequired
-     * @CORS
      */
     public function publicKey(): DataResponse
     {
@@ -41,7 +40,6 @@ class ApiV1Controller extends ApiController
     /**
      * @PublicPage
      * @NoCSRFRequired
-     * @CORS
      */
     public function authorization(): DataResponse
     {
@@ -59,7 +57,6 @@ class ApiV1Controller extends ApiController
     /**
      * @PublicPage
      * @NoCSRFRequired
-     * @CORS
      */
     public function authorize(string $strategy): RedirectResponse|DataResponse
     {
@@ -84,7 +81,6 @@ class ApiV1Controller extends ApiController
     /**
      * @PublicPage
      * @NoCSRFRequired
-     * @CORS
      */
     public function resources(): DataResponse
     {
