@@ -9,12 +9,12 @@ return [
         // LaunchController
         [
             "name" => "launch#launch",
-            "url" => "/",
+            "url" => "/main",
             "verb" => "GET",
         ],
         [
             "name" => 'launch#app',
-            "url" => '/app',
+            "url" => '/main/app',
             "verb" => 'GET',
         ],
 
