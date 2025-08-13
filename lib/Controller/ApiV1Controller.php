@@ -3,6 +3,7 @@
 namespace OCA\RdsNg\Controller;
 
 use OCA\RdsNg\AppInfo\Application;
+use OCA\RdsNg\Service\AuthorizationService;
 use OCA\RdsNg\Settings\AppSettings;
 use OCA\RdsNg\Utility\URLUtils;
 
@@ -15,14 +16,16 @@ class ApiV1Controller extends ApiController
     private IConfig $config;
 
     private AppSettings $appSettings;
+    private AuthorizationService $authService;
 
-    public function __construct(IRequest $request, IConfig $config, AppSettings $appSettings)
+    public function __construct(IRequest $request, IConfig $config, AppSettings $appSettings, AuthorizationService $authService)
     {
         parent::__construct(Application::APP_ID, $request);
 
         $this->config = $config;
 
         $this->appSettings = $appSettings;
+        $this->authService = $authService;
     }
 
     /**
@@ -58,25 +61,21 @@ class ApiV1Controller extends ApiController
      * @NoCSRFRequired
      * @CORS
      */
-    public function authorize(): RedirectResponse|DataResponse
+    public function authorize(string $strategy): RedirectResponse|DataResponse
     {
+        if ($strategy == "") {
+            return new DataResponse([
+                "message" => "Missing authorization strategy",
+                "error" => "Missing authorization strategy",
+            ], Http::STATUS_BAD_REQUEST);
+        }
+
         try {
-            $payload = base64_decode($_GET["state"]); // TODO: Flexibler
-            $payloadJson = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
-            $isserUrl = parse_url($payloadJson["auth_issuer_url"]);
-
-            $scheme = $isserUrl["scheme"];
-            $host = $isserUrl["host"];
-            $port = $isserUrl["port"] != "" ? ":{$isserUrl['port']}" : "";
-            $path = ltrim($isserUrl["path"], "/");
-            $query = $_SERVER["QUERY_STRING"];
-
-            // TODO: Whitelist mit erlaubten Issuer URLs (eigener Host geht immer)
-
-            return new RedirectResponse("$scheme://$host$port/$path?$query"); // TODO: Util Funk
+            $redirectURL = $this->authService->getIssuerURL($strategy);
+            return new RedirectResponse($redirectURL);
         } catch (\Exception $e) {
             return new DataResponse([
-                "message" => "Invalid authorization payload",
+                "message" => "Invalid authorization information for strategy {$strategy}",
                 "error" => $e->getMessage()
             ], Http::STATUS_BAD_REQUEST);
         }

@@ -6,6 +6,19 @@ use OCP\IConfig;
 
 class URLUtils
 {
+    public static function buildURL(string $scheme, string $host, string|int $port, string $path = "", string $query = "")
+    {
+        $fullPort = "";
+        if ($port != 0 && $port != "") {
+            $fullPort = ":{$port}";
+        }
+        $path = ltrim($path, "/");
+        if ($query != "") {
+            $query = "?{$query}";
+        }
+        return "{$scheme}://{$host}{$fullPort}/{$path}{$query}";
+    }
+
     public static function getHostURL(IConfig $config, string $endpoint = ""): string
     {
         $host = $_SERVER["HTTP_HOST"];

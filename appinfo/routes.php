@@ -31,7 +31,8 @@ return [
         ],
         [
             "name" => 'api_v1#authorize',
-            "url" => '/api/v1/authorize',
+            "url" => '/api/v1/authorize/{strategy}',
+            "requirements" => array("strategy" => ".+"),
             "verb" => 'GET',
         ],
         [
