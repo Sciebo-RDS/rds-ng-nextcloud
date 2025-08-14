@@ -6,7 +6,7 @@ use OCP\IConfig;
 
 class URLUtils
 {
-    public static function buildURL(string $scheme, string $host, string|int $port, string $path = "", string $query = "")
+    public static function buildURL(string $scheme, string $host, string|int $port, string $path = "", string $query = ""): string
     {
         $fullPort = "";
         if ($port != 0 && $port != "") {
