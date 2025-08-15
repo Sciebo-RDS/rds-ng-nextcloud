@@ -59,7 +59,6 @@ class ApiV1Controller extends ApiController
     /**
      * @PublicPage
      * @NoCSRFRequired
-     * @CORS
      */
     public function authorize(string $strategy): RedirectResponse|DataResponse
     {

@@ -6,10 +6,10 @@ use OCP\IConfig;
 
 class URLUtils
 {
-    public static function buildURL(string $scheme, string $host, string|int $port, string $path = "", string $query = ""): string
+    public static function buildURL(string $scheme, string $host, string|int|null $port, string $path = "", string $query = ""): string
     {
         $fullPort = "";
-        if ($port != 0 && $port != "") {
+        if ($port != 0 && $port != "" && $port != null) {
             $fullPort = ":{$port}";
         }
         $path = ltrim($path, "/");
