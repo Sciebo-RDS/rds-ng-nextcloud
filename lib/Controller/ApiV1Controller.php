@@ -50,8 +50,8 @@ class ApiV1Controller extends ApiController
             "strategy" => "oauth2",
             "config" => [
                 "host" => URLUtils::getHostURL($this->config),
-                "authorization_endpoint" => $withIndexPHP ? "/index.php/" : "/" . "apps/oauth2/authorize",
-                "token_endpoint" => $withIndexPHP ? "/index.php/" : "/" . "apps/oauth2/api/v1/token",
+                "authorization_endpoint" => ($withIndexPHP ? "/index.php/" : "/") . "apps/oauth2/authorize",
+                "token_endpoint" => ($withIndexPHP ? "/index.php/" : "/") . "apps/oauth2/api/v1/token",
                 "scope" => "",
             ]
         ]]);
