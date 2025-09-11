@@ -45,12 +45,13 @@ class ApiV1Controller extends ApiController
      */
     public function authorization(): DataResponse
     {
+        $withIndexPHP = str_contains($_SERVER['REQUEST_URI'], "/index.php/");
         return new DataResponse(["authorization" => [
             "strategy" => "oauth2",
             "config" => [
                 "host" => URLUtils::getHostURL($this->config),
-                "authorization_endpoint" => "/apps/oauth2/authorize",
-                "token_endpoint" => "/apps/oauth2/api/v1/token",
+                "authorization_endpoint" => $withIndexPHP ? "/index.php/" : "/" . "apps/oauth2/authorize",
+                "token_endpoint" => $withIndexPHP ? "/index.php/" : "/" . "apps/oauth2/api/v1/token",
                 "scope" => "",
             ]
         ]]);
