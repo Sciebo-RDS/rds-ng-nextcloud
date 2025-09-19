@@ -6,11 +6,15 @@ use OCA\RdsNg\AppInfo\Application;
 use OCA\RdsNg\Types\KeyPair;
 
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\Settings\ISettings;
 
-class AppSettings implements ISettings {
+class AppSettings implements ISettings
+{
     const SETTING_APP_URL = "app_url";
+
+    const SETTING_INSTANCE_ID = "instance_id";
 
     const SETTING_USERID_SUFFIX = "userid_suffix";
     const SETTING_USERID_SUFFIX_ENFORCE = "userid_suffix_enforce";
@@ -18,65 +22,84 @@ class AppSettings implements ISettings {
     const SETTING_USERTOKEN_PUBLIC_KEY = "usertoken_public_key";
     const SETTING_USERTOKEN_PRIVATE_KEY = "usertoken_private_key";
 
-    private IConfig $config;
+    private IAppConfig $config;
 
-    public function __construct(IConfig $config) {
+    public function __construct(IAppConfig $config)
+    {
         $this->config = $config;
     }
 
-    public function getSettings(): array {
+    public function getSettings(): array
+    {
         return [
             AppSettings::SETTING_APP_URL =>
-                $this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_APP_URL, ""),
+                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_APP_URL, ""),
+            AppSettings::SETTING_INSTANCE_ID =>
+                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_INSTANCE_ID, "default"),
             AppSettings::SETTING_USERID_SUFFIX =>
-                $this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_USERID_SUFFIX, ""),
+                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_USERID_SUFFIX, ""),
             AppSettings::SETTING_USERID_SUFFIX_ENFORCE =>
-                $this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_USERID_SUFFIX_ENFORCE, false) == "true",
+                $this->config->getValueBool(Application::APP_ID, AppSettings::SETTING_USERID_SUFFIX_ENFORCE, false),
             AppSettings::SETTING_USERTOKEN_PUBLIC_KEY =>
-                $this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, ""),
+                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, ""),
             AppSettings::SETTING_USERTOKEN_PRIVATE_KEY =>
-                $this->config->getAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, ""),
+                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, ""),
         ];
     }
 
-    public function getAppURL(): string {
+    public function getAppURL(): string
+    {
         return $this->getSettings()[self::SETTING_APP_URL];
     }
 
-    public function getUserIDSuffix(): string {
+    public function getInstanceID(): string
+    {
+        return $this->getSettings()[self::SETTING_INSTANCE_ID];
+    }
+
+    public function getUserIDSuffix(): string
+    {
         return $this->getSettings()[self::SETTING_USERID_SUFFIX];
     }
 
-    public function getEnforceUserIDSuffix(): bool {
+    public function getEnforceUserIDSuffix(): bool
+    {
         return $this->getSettings()[self::SETTING_USERID_SUFFIX_ENFORCE];
     }
 
-    public function getUserTokenPublicKey(): string {
+    public function getUserTokenPublicKey(): string
+    {
         return $this->getSettings()[self::SETTING_USERTOKEN_PUBLIC_KEY];
     }
 
-    public function getUserTokenPrivateKey(): string {
+    public function getUserTokenPrivateKey(): string
+    {
         return $this->getSettings()[self::SETTING_USERTOKEN_PRIVATE_KEY];
     }
 
-    public function getUserTokenKeys(): KeyPair {
+    public function getUserTokenKeys(): KeyPair
+    {
         return new KeyPair($this->getUserTokenPublicKey(), $this->getUserTokenPrivateKey());
     }
 
-    public function setUserTokenKeys(KeyPair $keys): void {
-        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, $keys->publicKey());
-        $this->config->setAppValue(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, $keys->privateKey());
+    public function setUserTokenKeys(KeyPair $keys): void
+    {
+        $this->config->setValueString(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, $keys->publicKey());
+        $this->config->setValueString(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, $keys->privateKey());
     }
 
-    public function getForm(): TemplateResponse {
+    public function getForm(): TemplateResponse
+    {
         return new TemplateResponse(Application::APP_ID, "settings/appsettings", $this->getSettings());
     }
 
-    public function getSection(): string {
+    public function getSection(): string
+    {
         return Application::APP_ID;
     }
 
-    public function getPriority(): int {
+    public function getPriority(): int
+    {
         return 70;
     }
 }

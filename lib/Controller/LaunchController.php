@@ -87,6 +87,7 @@ class LaunchController extends Controller
     {
         $jwt = $this->tokenService->generateUserToken()->generateJWT($this->appSettings->getUserTokenKeys());
         $queryParams = [
+            "instance-id" => $this->appSettings->getInstanceId(),
             "user-token" => $jwt,
         ];
         $this->getOAuth2QueryParams($queryParams);

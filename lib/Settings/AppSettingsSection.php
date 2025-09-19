@@ -36,7 +36,7 @@ class AppSettingsSection implements IIconSection
         return 70;
     }
 
-    public function getIcon()
+    public function getIcon(): string
     {
         return $this->urlGenerator->imagePath(Application::APP_ID, 'app-bl.svg');
     }

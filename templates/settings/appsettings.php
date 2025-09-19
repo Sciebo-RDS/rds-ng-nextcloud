@@ -12,7 +12,7 @@ Util::addStyle(Application::APP_ID, "settings/appsettings");
 ?>
 
 <div id="settings" class="section">
-    <h2>BridgIT Settings</h2>
+    <h2>bridgit settings</h2>
 
     <form id="settings-form" style="padding-bottom: 1rem; width: 600px;">
         <div id="main-settings-section" style="padding-bottom: 1rem;">
@@ -25,6 +25,10 @@ Util::addStyle(Application::APP_ID, "settings/appsettings");
                 <label for="app-url">bridgit URL:</label>
                 <input id="app-url" type="text" style="width: 400px;" placeholder="https://www.mydomain.com" value="<?php p($_['app_url']) ?>"/>
                 <div class="settings-table-info"><em>The URL of your bridgit instance.</em></div>
+
+                <label for="instance-id">Instance ID:</label>
+                <input id="instance-id" type="text" style="width: 400px;" placeholder="some-id" value="<?php p($_['instance_id']) ?>"/>
+                <div class="settings-table-info"><em>A cluster-unique identifier for this instance (used to distinguish multiple hosts using a single bridgit deployment).</em></div>
             </div>
         </div>
 
