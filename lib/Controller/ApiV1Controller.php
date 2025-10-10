@@ -3,7 +3,6 @@
 namespace OCA\RdsNg\Controller;
 
 use OCA\RdsNg\AppInfo\Application;
-use OCA\RdsNg\Service\AuthorizationService;
 use OCA\RdsNg\Settings\AppSettings;
 use OCA\RdsNg\Utility\URLUtils;
 
@@ -16,16 +15,14 @@ class ApiV1Controller extends ApiController
     private IConfig $config;
 
     private AppSettings $appSettings;
-    private AuthorizationService $authService;
 
-    public function __construct(IRequest $request, IConfig $config, AppSettings $appSettings, AuthorizationService $authService)
+    public function __construct(IRequest $request, IConfig $config, AppSettings $appSettings)
     {
         parent::__construct(Application::APP_ID, $request);
 
         $this->config = $config;
 
         $this->appSettings = $appSettings;
-        $this->authService = $authService;
     }
 
     /**
@@ -55,30 +52,6 @@ class ApiV1Controller extends ApiController
                 "scope" => "",
             ]
         ]]);
-    }
-
-    /**
-     * @PublicPage
-     * @NoCSRFRequired
-     */
-    public function authorize(string $strategy): RedirectResponse|DataResponse
-    {
-        if ($strategy == "") {
-            return new DataResponse([
-                "message" => "Missing authorization strategy",
-                "error" => "Missing authorization strategy",
-            ], Http::STATUS_BAD_REQUEST);
-        }
-
-        try {
-            $redirectURL = $this->authService->getIssuerURL($strategy);
-            return new RedirectResponse($redirectURL);
-        } catch (\Exception $e) {
-            return new DataResponse([
-                "message" => "Invalid authorization information for strategy {$strategy}",
-                "error" => $e->getMessage()
-            ], Http::STATUS_BAD_REQUEST);
-        }
     }
 
     /**
