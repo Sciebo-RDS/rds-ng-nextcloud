@@ -77,6 +77,12 @@ class UserToken implements JsonSerializable
     {
         $token = new UserToken();
 
+        // Use the user's cloud ID by default, falling back to a normalized user ID
+        $userID = $session->getUser()->getUID();
+        if ($userID == "") {
+            $userID = $appService->normalizeUserID($session->getUser()->getUID());
+        }
+
         // Create the proper user ID for accessing resources through WebDAV
         $accessID = $session->getUser()->getUID();
         if (str_contains($accessID, "://")) {
@@ -86,7 +92,7 @@ class UserToken implements JsonSerializable
             $accessID = explode(":", $accessID)[0];
         }
 
-        $token->userID = $appService->normalizeUserID($session->getUser()->getUID());
+        $token->userID = $userID;
         $token->systemID = $session->getUser()->getUID();
         $token->accessID = $accessID;
         $token->name = $session->getUser()->getDisplayName();
