@@ -16,9 +16,6 @@ class AppSettings implements ISettings
 
     const SETTING_INSTANCE_ID = "instance_id";
 
-    const SETTING_USERID_SUFFIX = "userid_suffix";
-    const SETTING_USERID_SUFFIX_ENFORCE = "userid_suffix_enforce";
-
     const SETTING_USERTOKEN_PUBLIC_KEY = "usertoken_public_key";
     const SETTING_USERTOKEN_PRIVATE_KEY = "usertoken_private_key";
 
@@ -36,10 +33,6 @@ class AppSettings implements ISettings
                 $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_APP_URL, ""),
             AppSettings::SETTING_INSTANCE_ID =>
                 $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_INSTANCE_ID, "default"),
-            AppSettings::SETTING_USERID_SUFFIX =>
-                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_USERID_SUFFIX, ""),
-            AppSettings::SETTING_USERID_SUFFIX_ENFORCE =>
-                $this->config->getValueBool(Application::APP_ID, AppSettings::SETTING_USERID_SUFFIX_ENFORCE, false),
             AppSettings::SETTING_USERTOKEN_PUBLIC_KEY =>
                 $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, ""),
             AppSettings::SETTING_USERTOKEN_PRIVATE_KEY =>
@@ -55,16 +48,6 @@ class AppSettings implements ISettings
     public function getInstanceID(): string
     {
         return $this->getSettings()[self::SETTING_INSTANCE_ID];
-    }
-
-    public function getUserIDSuffix(): string
-    {
-        return $this->getSettings()[self::SETTING_USERID_SUFFIX];
-    }
-
-    public function getEnforceUserIDSuffix(): bool
-    {
-        return $this->getSettings()[self::SETTING_USERID_SUFFIX_ENFORCE];
     }
 
     public function getUserTokenPublicKey(): string

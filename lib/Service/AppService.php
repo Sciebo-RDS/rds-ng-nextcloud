@@ -4,14 +4,17 @@ namespace OCA\RdsNg\Service;
 
 use OCA\RdsNg\Settings\AppSettings;
 
-class AppService {
+class AppService
+{
     private AppSettings $settings;
 
-    public function __construct(AppSettings $settings) {
+    public function __construct(AppSettings $settings)
+    {
         $this->settings = $settings;
     }
 
-    public function getAppHost(bool $includePort = false): string {
+    public function getAppHost(bool $includePort = false): string
+    {
         $url = $this->settings->getAppURL();
         if ($url == "") {
             return "";
@@ -26,23 +29,17 @@ class AppService {
         return $host;
     }
 
-    public function normalizeUserID(string $uid): string {
-        if (filter_var($uid, FILTER_VALIDATE_EMAIL)) {
-            if ($this->settings->getEnforceUserIDSuffix()) {
-                $uid = str_replace(['@', '.'], '-', $uid);
-            } else {
-                return $uid;
-            }
+    public function normalizeUserID(string $uid): string
+    {
+        $instanceID = $this->settings->getInstanceID();
+        if ($instanceID == "") {
+            $instanceID = "default";
         }
-        $uid = str_replace('@', '-', $uid);
-        $host = $this->settings->getUserIDSuffix();
-        if ($host == "") {
-            $host = $this->getAppHost();
-        }
-        return $uid . '@' . $host;
+        return $uid . '::' . $instanceID;
     }
 
-    public function settings(): AppSettings {
+    public function settings(): AppSettings
+    {
         return $this->settings;
     }
 }
