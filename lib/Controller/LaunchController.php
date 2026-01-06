@@ -9,6 +9,7 @@ use OCA\RdsNg\Settings\AppSettings;
 
 use OCP\AppFramework\{Controller, Http\ContentSecurityPolicy, Http\RedirectResponse, Http\TemplateResponse};
 use OCA\RdsNg\Utility\URLUtils;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -17,6 +18,7 @@ class LaunchController extends Controller
 {
     private IURLGenerator $urlGenerator;
     private IConfig $config;
+    private IAppConfig $appConfig;
 
     private AppService $appService;
     private UserTokenService $tokenService;
@@ -27,6 +29,7 @@ class LaunchController extends Controller
         IRequest         $request,
         IURLGenerator    $urlGenerator,
         IConfig          $config,
+        IAppConfig       $appConfig,
         AppService       $appService,
         UserTokenService $tokenService,
         AppSettings      $appSettings)
@@ -35,6 +38,7 @@ class LaunchController extends Controller
 
         $this->urlGenerator = $urlGenerator;
         $this->config = $config;
+        $this->appConfig = $appConfig;
 
         $this->appService = $appService;
         $this->tokenService = $tokenService;
@@ -72,8 +76,9 @@ class LaunchController extends Controller
         }
 
         $resp = new TemplateResponse(Application::APP_ID, "launcher/launcher", [
+            "app-version" => $this->appConfig->getValueString(Application::APP_ID, "installed_version"),
             "app-source" => $this->urlGenerator->linkToRoute(Application::APP_ID . ".launch.app") . "?" . $_SERVER["QUERY_STRING"],
-            "app-origin" => $appHost,
+            "app-origin" => $appHost
         ]);
         $resp->setContentSecurityPolicy($csp);
         return $resp;

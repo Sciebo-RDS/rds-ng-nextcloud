@@ -11,5 +11,6 @@ Util::addStyle(Application::APP_ID, "launcher/launcher");
 ?>
 
 <div id="content" class="app-wrapper">
-    <iframe id="app-frame" class="app-frame" src="<?php p($_['app-source']); ?>" title="bridgit" x-origin="<?php p($_['app-origin']); ?>"></iframe>
+    <iframe id="app-frame" class="app-frame" src="<?php p($_['app-source']); ?>" title="bridgit <?php p($_['app-version']); ?>" x-origin="<?php p($_['app-origin']); ?>">
+    </iframe>
 </div>
