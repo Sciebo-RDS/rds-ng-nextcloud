@@ -23,25 +23,25 @@ class DeleteUser extends Base
     protected function configure(): void
     {
         $this->setName('rdsng:user:delete');
-        $this->setDescription('Deletes the user with the specified email address and all related data');
+        $this->setDescription('Deletes the user with the specified ID and all related data');
 
-        $this->addOption("email", "e", InputOption::VALUE_REQUIRED, "User email address");
+        $this->addOption("user-id", null, InputOption::VALUE_REQUIRED, "The user ID");
 
         parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $userEmail = $input->getOption("email");
-        if ($userEmail == "") {
-            $output->writeln("<error>User email address is required (specified via --email)</error>");
+        $userID = $input->getOption("user-id");
+        if ($userID == "") {
+            $output->writeln("<error>User ID is required (specified via --user-id)</error>");
             return -1;
         }
 
-        $output->writeln("Deleting user with email $userEmail...");
+        $output->writeln("Deleting user with ID {$userID}...");
 
         try {
-            $this->serverService->deleteUser($userEmail);
+            $this->serverService->deleteUser($userID);
             $output->writeln("<info>User successfully deleted.</info>");
         } catch (\Exception $e) {
             $output->writeln("<error>Unable to delete user: {$e->getMessage()}</error>");
