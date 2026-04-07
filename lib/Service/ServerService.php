@@ -42,12 +42,12 @@ class ServerService
             "name" => $name,
             "origin" => $appID,
             "sender" => $appID,
-            "target" => "infra/server"
+            "target" => "infra/server/default"
         ];
         if ($addAPIKey) {
             $apiKey = $this->appSettings->getApiKey();
             if ($apiKey == "") {
-                throw new \Exception("Api key missing");
+                throw new \Exception("API key missing");
             }
             $msg = array_merge($msg, ["api_key" => $apiKey]);
         }
