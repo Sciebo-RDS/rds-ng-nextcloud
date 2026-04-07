@@ -29,6 +29,22 @@ class AppService
         return $host;
     }
 
+    public function getServerHost(bool $includePort = false): string
+    {
+        $url = $this->settings->getServerURL();
+        if ($url == "") {
+            return "";
+        }
+
+        $port = parse_url($url, PHP_URL_PORT);
+        $host = parse_url($url, PHP_URL_HOST);
+
+        if ($includePort && $port != null) {
+            return "$host:$port";
+        }
+        return $host;
+    }
+
     public function normalizeUserID(string $uid): string
     {
         $instanceID = $this->settings->getInstanceID();
