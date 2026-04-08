@@ -31,8 +31,20 @@ class ServerService
 
         $msg = $this->buildMessage($name, $data, $isProtected);
 
-        // TODO: Issue message
-        throw new \Exception(json_encode($msg));
+        // POST request via cURL and check the result
+        $curl = curl_init($serverAddress . "/api/v1");
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($msg));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json", "X-RDS-NG-API-Key: " . $this->appSettings->getAPIKey() . "x"]);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        $result = curl_exec($curl);
+        $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+
+        if ($statusCode >= 400) {
+            throw new \Exception("API call failed with status code {$statusCode}: {$result}");
+        }
     }
 
     private function buildMessage(string $name, array $data, bool $addAPIKey = false): array
