@@ -55,8 +55,7 @@ class ServerService
         $msg = [
             "name" => $name,
             "origin" => $appID,
-            "sender" => $appID,
-            "target" => "infra/server/default"
+            "sender" => $appID
         ];
         if ($addAPIKey) {
             $apiKey = $this->appSettings->getApiKey();
