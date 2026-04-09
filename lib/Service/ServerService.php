@@ -8,11 +8,11 @@ class ServerService
 {
     const API_VERSION = "v1";
 
-    private AppSettings $appSettings;
+    private AppService $appService;
 
-    public function __construct(AppSettings $appSettings)
+    public function __construct(AppService $appService)
     {
-        $this->appSettings = $appSettings;
+        $this->appService = $appService;
     }
 
     public function deleteUser(string $userID): void
@@ -21,12 +21,13 @@ class ServerService
             throw new \Exception("User ID missing");
         }
 
-        $this->callServerAPI("command/user/delete", ["user_id" => $userID, "host_id" => $this->appSettings->getInstanceID()], true);
+        //$this->callServerAPI("command/user/delete", ["user_id" => $userID, "host_id" => $this->appSettings->getInstanceID()], true);
+        $this->callServerAPI("command/general/ping");
     }
 
     private function callServerAPI(string $name, array $data = [], bool $isProtected = false): void
     {
-        $serverAddress = $this->appSettings->getServerURL();
+        $serverAddress = $this->appService->settings()->getServerURL();
         if ($serverAddress == "") {
             throw new \Exception("Server address missing");
         }
@@ -37,7 +38,7 @@ class ServerService
         $curl = curl_init($serverAddress . "/api/" . ServerService::API_VERSION);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($msg));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json", "X-RDS-NG-API-Key: " . $this->appSettings->getAPIKey()]);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-Type: application/json", "X-RDS-NG-API-Key: " . $this->appService->settings()->getAPIKey()]);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
         $result = curl_exec($curl);
@@ -51,14 +52,13 @@ class ServerService
 
     private function buildMessage(string $name, array $data, bool $addAPIKey = false): array
     {
-        $appID = "web/integration/{$this->appSettings->getInstanceID()}";
         $msg = [
             "name" => $name,
-            "origin" => $appID,
-            "sender" => $appID
+            "origin" => $this->appService->getAppUnitID(),
+            "sender" => $this->appService->getAppUnitID(),
         ];
         if ($addAPIKey) {
-            $apiKey = $this->appSettings->getApiKey();
+            $apiKey = $this->appService->settings()->getApiKey();
             if ($apiKey == "") {
                 throw new \Exception("API key missing");
             }

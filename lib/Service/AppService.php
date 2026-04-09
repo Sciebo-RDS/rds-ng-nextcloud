@@ -45,6 +45,15 @@ class AppService
         return $host;
     }
 
+    public function getAppUnitID(): array
+    {
+        return [
+            "type" => "web",
+            "unit" => "integration",
+            "instance" => $this->settings->getInstanceID()
+        ];
+    }
+
     public function normalizeUserID(string $uid): string
     {
         $instanceID = $this->settings->getInstanceID();
