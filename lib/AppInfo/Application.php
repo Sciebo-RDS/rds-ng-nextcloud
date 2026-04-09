@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace OCA\RdsNg\AppInfo;
 
+use OCA\RdsNg\Events\UserDeletedListener;
 use OCA\RdsNg\Service\UserTokenService;
 use OCA\RdsNg\Settings\AppSettings;
 
@@ -13,24 +14,40 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\User\Events\UserDeletedEvent;
 
 use Throwable;
 
-class Application extends App implements IBootstrap {
+class Application extends App implements IBootstrap
+{
     public const APP_ID = 'rdsng';
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(self::APP_ID);
+
+        $this->addEventListeners();
     }
 
-    public function register(IRegistrationContext $context): void {
+    public function register(IRegistrationContext $context): void
+    {
     }
 
-    public function boot(IBootContext $context): void {
+    public function boot(IBootContext $context): void
+    {
         $this->generateDefaultUserTokenKeys($context);
     }
 
-    private function generateDefaultUserTokenKeys(IBootContext $context): void {
+    private function addEventListeners(): void
+    {
+        // User deleted
+        $dispatcher = $this->getContainer()->get(IEventDispatcher::class);
+        $dispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedListener::class);
+    }
+
+    private function generateDefaultUserTokenKeys(IBootContext $context): void
+    {
         try {
             $tokenService = $context->getAppContainer()->get(UserTokenService::class);
             $appSettings = $context->getAppContainer()->get(AppSettings::class);
