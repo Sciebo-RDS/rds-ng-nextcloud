@@ -4,16 +4,16 @@ namespace OCA\RdsNg\Command;
 
 use OC\Core\Command\Base;
 
-use OCA\RdsNg\Service\ServerService;
+use OCA\RdsNg\Service\CommandService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteUser extends Base
 {
-    private ServerService $serverService;
+    private CommandService $serverService;
 
-    public function __construct(ServerService $serverService)
+    public function __construct(CommandService $serverService)
     {
         parent::__construct();
 

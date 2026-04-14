@@ -3,7 +3,7 @@
 namespace OCA\RdsNg\Events;
 
 use OCA\RdsNg\Service\AppService;
-use OCA\RdsNg\Service\ServerService;
+use OCA\RdsNg\Service\CommandService;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
@@ -13,9 +13,9 @@ use OCP\User\Events\UserDeletedEvent;
 class UserDeletedListener implements IEventListener
 {
     private AppService $appService;
-    private ServerService $serverService;
+    private CommandService $serverService;
 
-    public function __construct(AppService $appService, ServerService $serverService)
+    public function __construct(AppService $appService, CommandService $serverService)
     {
         $this->appService = $appService;
         $this->serverService = $serverService;

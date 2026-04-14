@@ -13,7 +13,7 @@ use OCP\Settings\ISettings;
 class AppSettings implements ISettings
 {
     const SETTING_APP_URL = "app_url";
-    const SETTING_SERVER_URL = "server_url";
+    const SETTING_DOMO_URL = "domo_url";
 
     const SETTING_INSTANCE_ID = "instance_id";
 
@@ -34,8 +34,8 @@ class AppSettings implements ISettings
         return [
             AppSettings::SETTING_APP_URL =>
                 $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_APP_URL, ""),
-            AppSettings::SETTING_SERVER_URL =>
-                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_SERVER_URL, ""),
+            AppSettings::SETTING_DOMO_URL =>
+                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_DOMO_URL, ""),
             AppSettings::SETTING_INSTANCE_ID =>
                 $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_INSTANCE_ID, "default"),
             AppSettings::SETTING_API_KEY =>
@@ -52,9 +52,9 @@ class AppSettings implements ISettings
         return $this->getSettings()[self::SETTING_APP_URL];
     }
 
-    public function getServerURL(): string
+    public function getDomoURL(): string
     {
-        return $this->getSettings()[self::SETTING_SERVER_URL];
+        return $this->getSettings()[self::SETTING_DOMO_URL];
     }
 
     public function getInstanceID(): string
