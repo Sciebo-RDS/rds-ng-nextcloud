@@ -19,7 +19,7 @@ class CommandService
             throw new \Exception("User ID missing");
         }
 
-        $this->callDomoCommand("user", $this->getCommandData(["user-id" => $userID]), "DELETE");
+        $this->callDomoCommand("user", $this->getCommandData(["user_id" => $userID]), "DELETE");
     }
 
     private function callDomoCommand(string $endpoint, array $data = [], string $method = "POST"): void
@@ -47,7 +47,7 @@ class CommandService
 
     private function getCommandData(array $data): array
     {
-        $defaultData = ["instance-id" => $this->appService->settings()->getInstanceID()];
+        $defaultData = ["instance_id" => $this->appService->settings()->getInstanceID()];
         return array_merge($defaultData, $data);
     }
 
