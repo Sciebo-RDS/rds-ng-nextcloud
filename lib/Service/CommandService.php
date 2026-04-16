@@ -47,7 +47,7 @@ class CommandService
 
     private function getCommandData(array $data): array
     {
-        $defaultData = ["instance_id" => $this->appService->settings()->getInstanceID()];
+        $defaultData = ["host_id" => $this->appService->settings()->getInstanceID()];
         return array_merge($defaultData, $data);
     }
 
