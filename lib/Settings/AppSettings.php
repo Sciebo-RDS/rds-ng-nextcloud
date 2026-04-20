@@ -13,8 +13,11 @@ use OCP\Settings\ISettings;
 class AppSettings implements ISettings
 {
     const SETTING_APP_URL = "app_url";
+    const SETTING_DOMO_URL = "domo_url";
 
     const SETTING_INSTANCE_ID = "instance_id";
+
+    const SETTING_API_KEY = "api_key";
 
     const SETTING_USERTOKEN_PUBLIC_KEY = "usertoken_public_key";
     const SETTING_USERTOKEN_PRIVATE_KEY = "usertoken_private_key";
@@ -31,8 +34,12 @@ class AppSettings implements ISettings
         return [
             AppSettings::SETTING_APP_URL =>
                 $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_APP_URL, ""),
+            AppSettings::SETTING_DOMO_URL =>
+                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_DOMO_URL, ""),
             AppSettings::SETTING_INSTANCE_ID =>
                 $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_INSTANCE_ID, "default"),
+            AppSettings::SETTING_API_KEY =>
+                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_API_KEY, "default"),
             AppSettings::SETTING_USERTOKEN_PUBLIC_KEY =>
                 $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, ""),
             AppSettings::SETTING_USERTOKEN_PRIVATE_KEY =>
@@ -45,9 +52,19 @@ class AppSettings implements ISettings
         return $this->getSettings()[self::SETTING_APP_URL];
     }
 
+    public function getDomoURL(): string
+    {
+        return $this->getSettings()[self::SETTING_DOMO_URL];
+    }
+
     public function getInstanceID(): string
     {
         return $this->getSettings()[self::SETTING_INSTANCE_ID];
+    }
+
+    public function getAPIKey(): string
+    {
+        return $this->getSettings()[self::SETTING_API_KEY];
     }
 
     public function getUserTokenPublicKey(): string
