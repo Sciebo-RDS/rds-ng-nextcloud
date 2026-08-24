@@ -13,17 +13,6 @@
             "OCA\\rdsng\\": "lib/"
         }
     },
-    "require": {
-        "bamarni/composer-bin-plugin": "^1.8",
-        "php": "^8.1",
-        "firebase/php-jwt": "^6.10.0",
-        "web-token/jwt-framework": "^3.3.0",
-        "ext-curl": "*"
-    },
-    "require-dev": {
-        "nextcloud/ocp": "dev-stable29",
-        "roave/security-advisories": "dev-latest"
-    },
     "scripts": {
         "post-install-cmd": [
             "@composer bin all install --ansi"
@@ -38,6 +27,17 @@
         "test:unit": "phpunit tests -c tests/phpunit.xml --colors=always --fail-on-warning --fail-on-risky",
         "openapi": "generate-spec",
         "rector": "rector && composer cs:fix"
+    },
+    "require": {
+        "bamarni/composer-bin-plugin": "^1.8",
+        "php": "^8.1",
+        "firebase/php-jwt": "^6.10.0",
+        "web-token/jwt-framework": "^3.3.0",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "nextcloud/ocp": "dev-stable31",
+        "roave/security-advisories": "dev-latest"
     },
     "config": {
         "allow-plugins": {
