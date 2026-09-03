@@ -30,9 +30,9 @@
     },
     "require": {
         "bamarni/composer-bin-plugin": "^1.8",
-        "php": "^8.1",
-        "firebase/php-jwt": "^6.10.0",
-        "web-token/jwt-framework": "^3.3.0",
+        "php": "^8.2",
+        "firebase/php-jwt": "^7.0.0",
+        "web-token/jwt-framework": "^4.0.0",
         "ext-curl": "*"
     },
     "require-dev": {
@@ -46,7 +46,7 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "8.1"
+            "php": "8.2"
         }
     },
     "extra": {

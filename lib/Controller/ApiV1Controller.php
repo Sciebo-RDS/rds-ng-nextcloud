@@ -6,7 +6,7 @@ use OCA\RdsNg\AppInfo\Application;
 use OCA\RdsNg\Settings\AppSettings;
 use OCA\RdsNg\Utility\URLUtils;
 
-use OCP\AppFramework\{ApiController, Http, Http\DataResponse, Http\RedirectResponse};
+use OCP\AppFramework\{ApiController, Http, Http\DataResponse, Http\RedirectResponse, Http\Attribute\PublicPage, Http\Attribute\NoCSRFRequired, Http\Attribute\CORS};
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -25,21 +25,17 @@ class ApiV1Controller extends ApiController
         $this->appSettings = $appSettings;
     }
 
-    /**
-     * @PublicPage
-     * @NoCSRFRequired
-     * @CORS
-     */
+    #[PublicPage]
+    #[NoCSRFRequired]
+    #[CORS]
     public function publicKey(): DataResponse
     {
         return new DataResponse(["public-key" => $this->appSettings->getUserTokenPublicKey()]);
     }
 
-    /**
-     * @PublicPage
-     * @NoCSRFRequired
-     * @CORS
-     */
+    #[PublicPage]
+    #[NoCSRFRequired]
+    #[CORS]
     public function authorization(): DataResponse
     {
         $withIndexPHP = str_contains($_SERVER['REQUEST_URI'], "/index.php/");
@@ -54,11 +50,9 @@ class ApiV1Controller extends ApiController
         ]]);
     }
 
-    /**
-     * @PublicPage
-     * @NoCSRFRequired
-     * @CORS
-     */
+    #[PublicPage]
+    #[NoCSRFRequired]
+    #[CORS]
     public function resources(): DataResponse
     {
         return new DataResponse(["resources" => [

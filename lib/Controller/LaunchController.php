@@ -7,7 +7,7 @@ use OCA\RdsNg\Service\AppService;
 use OCA\RdsNg\Service\UserTokenService;
 use OCA\RdsNg\Settings\AppSettings;
 
-use OCP\AppFramework\{Controller, Http\ContentSecurityPolicy, Http\RedirectResponse, Http\TemplateResponse};
+use OCP\AppFramework\{Controller, Http\ContentSecurityPolicy, Http\RedirectResponse, Http\TemplateResponse, Http\Attribute\NoAdminRequired, Http\Attribute\NoCSRFRequired};
 use OCA\RdsNg\Utility\URLUtils;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -48,10 +48,8 @@ class LaunchController extends Controller
 
     /*** Page endpoints ***/
 
-    /**
-     * @NoCSRFRequired
-     * @NoAdminRequired
-     */
+    #[NoCSRFRequired]
+    #[NoAdminRequired]
     public function launch(): TemplateResponse
     {
         $host = $_SERVER["HTTP_HOST"];
@@ -84,10 +82,8 @@ class LaunchController extends Controller
         return $resp;
     }
 
-    /**
-     * @NoCSRFRequired
-     * @NoAdminRequired
-     */
+    #[NoCSRFRequired]
+    #[NoAdminRequired]
     public function app(): RedirectResponse
     {
         $jwt = $this->tokenService->generateUserToken()->generateJWT($this->appSettings->getUserTokenKeys());
