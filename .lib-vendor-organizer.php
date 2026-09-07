@@ -47,7 +47,8 @@ foreach ($projectList as $projectDir) {
     $projectInfo = json_decode(file_get_contents($projectDir . 'composer.json'), true);
     if (!isset($projectInfo['autoload']['psr-4'])) {
         printf("No supported autoload configuration in %s" . PHP_EOL, $projectDir);
-        exit(2);
+        //exit(2);
+        continue;
     }
     foreach ($projectInfo['autoload']['psr-4'] as $namespace => $codeDir) {
         if ($stripNamespacePrefix !== '' && strpos($namespace, $stripNamespacePrefix) === 0) {
