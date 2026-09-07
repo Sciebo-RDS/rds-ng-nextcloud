@@ -2,20 +2,18 @@
 
 namespace OCA\RdsNg\Service;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 use JsonSerializable;
 
 use OCA\RdsNg\Types\KeyPair;
 
 use OCP\IUserSession;
 
-use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\JWK;
-use Jose\Component\KeyManagement\JWKFactory;
-use Jose\Component\Signature\Algorithm\RS256;
-use Jose\Component\Signature\JWSBuilder;
-use Jose\Component\Signature\Serializer\CompactSerializer;
+use OCA\RdsNg\Vendor\Jose\Component\Core\AlgorithmManager;
+use OCA\RdsNg\Vendor\Jose\Component\Core\JWK;
+use OCA\RdsNg\Vendor\Jose\Component\KeyManagement\JWKFactory;
+use OCA\RdsNg\Vendor\Jose\Component\Signature\Algorithm\RS256;
+use OCA\RdsNg\Vendor\Jose\Component\Signature\JWSBuilder;
+use OCA\RdsNg\Vendor\Jose\Component\Signature\Serializer\CompactSerializer;
 
 class UserToken implements JsonSerializable
 {

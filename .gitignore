@@ -4,6 +4,7 @@
 /build/
 /vendor/
 /vendor-bin/*/vendor/
+/lib/Vendor/
 
 /.php-cs-fixer.cache
 /tests/.phpunit.cache

@@ -15,7 +15,11 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "@composer bin all install --ansi"
+            "@composer bin all install --ansi",
+            "vendor/bin/php-scoper add-prefix --force",
+            "rm -rf lib/Vendor && mv build lib/Vendor",
+            "@php .lib-vendor-organizer.php lib/Vendor OCA\\\\RdsNg\\\\Vendor",
+            "composer dump-autoload -o"
         ],
         "post-update-cmd": [
             "@composer bin all update --ansi"
@@ -34,10 +38,6 @@
         "firebase/php-jwt": "^7.0.0",
         "web-token/jwt-framework": "^4.0.0",
         "ext-curl": "*"
-    },
-    "require-dev": {
-        "nextcloud/ocp": "dev-stable31",
-        "roave/security-advisories": "dev-latest"
     },
     "config": {
         "allow-plugins": {
