@@ -4,14 +4,7 @@ use OCP\Util;
 
 use OCA\RdsNg\AppInfo\Application;
 
-Util::addScript(Application::APP_ID, Application::APP_ID . "-lib_jquery");
 Util::addScript(Application::APP_ID, Application::APP_ID . "-launcher_launcher");
-
-Util::addStyle(Application::APP_ID, "main");
-Util::addStyle(Application::APP_ID, "launcher/launcher");
 ?>
 
-<div id="content" class="app-wrapper">
-    <iframe id="app-frame" class="app-frame" src="<?php p($_['app-source']); ?>" title="bridgit <?php p($_['app-version']); ?>" x-origin="<?php p($_['app-origin']); ?>">
-    </iframe>
-</div>
+<div id="rdsng-launcher"></div>
