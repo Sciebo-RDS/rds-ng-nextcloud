@@ -6,7 +6,16 @@ use OCA\RdsNg\AppInfo\Application;
 use OCA\RdsNg\Settings\AppSettings;
 use OCA\RdsNg\Utility\URLUtils;
 
-use OCP\AppFramework\{ApiController, Http, Http\DataResponse, Http\RedirectResponse, Http\Attribute\PublicPage, Http\Attribute\NoCSRFRequired, Http\Attribute\CORS};
+use OCP\AppFramework\{
+    ApiController,
+    Http,
+    Http\DataResponse,
+    Http\RedirectResponse,
+    Http\Attribute\PublicPage,
+    Http\Attribute\NoCSRFRequired,
+    Http\Attribute\CORS,
+    Http\Attribute\FrontpageRoute
+};
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -28,6 +37,7 @@ class ApiV1Controller extends ApiController
     #[PublicPage]
     #[NoCSRFRequired]
     #[CORS]
+    #[FrontpageRoute(verb: "GET", url: "/api/v1/public-key")]
     public function publicKey(): DataResponse
     {
         return new DataResponse(["public-key" => $this->appSettings->getUserTokenPublicKey()]);
@@ -36,6 +46,7 @@ class ApiV1Controller extends ApiController
     #[PublicPage]
     #[NoCSRFRequired]
     #[CORS]
+    #[FrontpageRoute(verb: "GET", url: "/api/v1/authorization")]
     public function authorization(): DataResponse
     {
         $withIndexPHP = str_contains($_SERVER['REQUEST_URI'], "/index.php/");
@@ -53,6 +64,7 @@ class ApiV1Controller extends ApiController
     #[PublicPage]
     #[NoCSRFRequired]
     #[CORS]
+    #[FrontpageRoute(verb: "GET", url: "/api/v1/resources")]
     public function resources(): DataResponse
     {
         return new DataResponse(["resources" => [
