@@ -31,25 +31,6 @@ class AppSettings implements ISettings
         $this->initialState = $initialState;
     }
 
-    // TODO: Remove later
-    public function getSettings(): array
-    {
-        return [
-            AppSettings::SETTING_APP_URL =>
-                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_APP_URL, ""),
-            AppSettings::SETTING_DOMO_URL =>
-                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_DOMO_URL, ""),
-            AppSettings::SETTING_INSTANCE_ID =>
-                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_INSTANCE_ID, "default"),
-            AppSettings::SETTING_API_KEY =>
-                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_API_KEY, "default"),
-            AppSettings::SETTING_USERTOKEN_PUBLIC_KEY =>
-                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, ""),
-            AppSettings::SETTING_USERTOKEN_PRIVATE_KEY =>
-                $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, ""),
-        ];
-    }
-
     public function getAppURL(): string
     {
         return $this->config->getValueString(Application::APP_ID, AppSettings::SETTING_APP_URL, "", lazy: true);
@@ -116,9 +97,10 @@ class AppSettings implements ISettings
         $this->initialState->provideInitialState(AppSettings::SETTING_APP_URL, $this->getAppURL());
         $this->initialState->provideInitialState(AppSettings::SETTING_DOMO_URL, $this->getDomoURL());
         $this->initialState->provideInitialState(AppSettings::SETTING_INSTANCE_ID, $this->getInstanceID());
+        $this->initialState->provideInitialState(AppSettings::SETTING_API_KEY, $this->getAPIKey());
         $this->initialState->provideInitialState(AppSettings::SETTING_USERTOKEN_PUBLIC_KEY, $this->getUserTokenPublicKey());
         $this->initialState->provideInitialState(AppSettings::SETTING_USERTOKEN_PRIVATE_KEY, $this->getUserTokenPrivateKey());
-        return new TemplateResponse(Application::APP_ID, "settings/appsettings", $this->getSettings()); // TODO: Remove settings
+        return new TemplateResponse(Application::APP_ID, "settings/appSettings");
     }
 
     public function getSection(): string

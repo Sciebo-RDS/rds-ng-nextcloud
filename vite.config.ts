@@ -6,7 +6,7 @@ const isProduction = process.env.NODE_ENV === "production";
 export default createAppConfig(
     {
         launcher_launcher: resolve(join("src", "launcher/launcher.js")),
-        settings_appsettings: resolve(join("src", "settings/appsettings.js")),
+        settings_appsettings: resolve(join("src", "settings/appSettings.js")),
         lib_jquery: resolve(join("src", "lib/jquery.js")),
     },
     {
