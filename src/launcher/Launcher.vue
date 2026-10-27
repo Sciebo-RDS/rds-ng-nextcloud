@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import {ref, onBeforeMount} from "vue";
 
 import {loadState} from "@nextcloud/initial-state";
 
@@ -8,6 +8,36 @@ const appSource = loadState("rdsng", "app_source");
 const appOrigin = loadState("rdsng", "app_origin");
 
 const loading = ref(true);
+
+onBeforeMount(() => {
+    window.addEventListener(
+        "message",
+        (event) => {
+            // Make sure that the message came from the embedded app
+            if (event.source.parent !== window) {
+                return;
+            }
+
+            // Commands come in the form { action: '...', data: <any> }
+            const data = event.data;
+            if (data.hasOwnProperty("action")) {
+                switch (event.data["action"]) {
+                    case "reload":
+                        // window.location.reload() won't work properly in FF, but this weird trick does
+                        document.getElementById("app-frame").src += "";
+                        break;
+
+                    case "redirect":
+                        if (data.hasOwnProperty("data")) {
+                            window.location.replace(data["data"]);
+                        }
+                        break;
+                }
+            }
+        },
+        false,
+    );
+});
 </script>
 
 <template>
