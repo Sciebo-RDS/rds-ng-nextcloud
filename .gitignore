@@ -1,14 +1,46 @@
-/.idea/
-/*.iml
+# Output files
+js
 
-/build/
-/vendor/
-/vendor-bin/*/vendor/
-/lib/Vendor/
+# Python specifics
+__pycache__
 
-/.php-cs-fixer.cache
-/tests/.phpunit.cache
+# Node specifics
+node_modules
 
-/node_modules/
-/js/
-/css/
+# Distribution files
+dist
+
+# Internal directories
+.data
+testing_data
+
+# IDE specific files
+.idea
+.vscode
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Mac OS specific
+.DS_Store
+
+# Binaries for programs and plugins (just in case)
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Python virtual env
+venv

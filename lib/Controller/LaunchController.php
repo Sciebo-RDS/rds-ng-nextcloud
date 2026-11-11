@@ -7,7 +7,16 @@ use OCA\RdsNg\Service\AppService;
 use OCA\RdsNg\Service\UserTokenService;
 use OCA\RdsNg\Settings\AppSettings;
 
-use OCP\AppFramework\{Controller, Http\ContentSecurityPolicy, Http\RedirectResponse, Http\TemplateResponse, Http\Attribute\NoAdminRequired, Http\Attribute\NoCSRFRequired};
+use OCP\AppFramework\{
+    Controller,
+    Services\IInitialState,
+    Http\ContentSecurityPolicy,
+    Http\RedirectResponse,
+    Http\TemplateResponse,
+    Http\Attribute\NoAdminRequired,
+    Http\Attribute\NoCSRFRequired,
+    Http\Attribute\FrontpageRoute
+};
 use OCA\RdsNg\Utility\URLUtils;
 use OCP\IAppConfig;
 use OCP\IConfig;
@@ -19,6 +28,7 @@ class LaunchController extends Controller
     private IURLGenerator $urlGenerator;
     private IConfig $config;
     private IAppConfig $appConfig;
+    private IInitialState $initialState;
 
     private AppService $appService;
     private UserTokenService $tokenService;
@@ -30,6 +40,7 @@ class LaunchController extends Controller
         IURLGenerator    $urlGenerator,
         IConfig          $config,
         IAppConfig       $appConfig,
+        IInitialState    $initialState,
         AppService       $appService,
         UserTokenService $tokenService,
         AppSettings      $appSettings)
@@ -39,6 +50,7 @@ class LaunchController extends Controller
         $this->urlGenerator = $urlGenerator;
         $this->config = $config;
         $this->appConfig = $appConfig;
+        $this->initialState = $initialState;
 
         $this->appService = $appService;
         $this->tokenService = $tokenService;
@@ -50,6 +62,7 @@ class LaunchController extends Controller
 
     #[NoCSRFRequired]
     #[NoAdminRequired]
+    #[FrontpageRoute(verb: "GET", url: "/")]
     public function launch(): TemplateResponse
     {
         $host = $_SERVER["HTTP_HOST"];
@@ -73,17 +86,17 @@ class LaunchController extends Controller
             $csp->addAllowedFrameAncestorDomain($overwriteHost);
         }
 
-        $resp = new TemplateResponse(Application::APP_ID, "launcher/launcher", [
-            "app-version" => $this->appConfig->getValueString(Application::APP_ID, "installed_version"),
-            "app-source" => $this->urlGenerator->linkToRoute(Application::APP_ID . ".launch.app") . "?" . $_SERVER["QUERY_STRING"],
-            "app-origin" => $appHost
-        ]);
+        $this->initialState->provideInitialState("app_version", $this->appConfig->getValueString(Application::APP_ID, "installed_version"));
+        $this->initialState->provideInitialState("app_source", $this->urlGenerator->linkToRoute(Application::APP_ID . ".launch.app") . "?" . $_SERVER["QUERY_STRING"]);
+        $this->initialState->provideInitialState("app_origin", $appHost);
+        $resp = new TemplateResponse(Application::APP_ID, "launcher/launcher");
         $resp->setContentSecurityPolicy($csp);
         return $resp;
     }
 
     #[NoCSRFRequired]
     #[NoAdminRequired]
+    #[FrontpageRoute(verb: "GET", url: "/app")]
     public function app(): RedirectResponse
     {
         $jwt = $this->tokenService->generateUserToken()->generateJWT($this->appSettings->getUserTokenKeys());
